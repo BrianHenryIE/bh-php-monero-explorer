@@ -1,0 +1,11 @@
+parameters:
+    level: 6
+    paths:
+        - src
+        - tests
+    excludePaths:
+        - tests/reports
+    ignoreErrors:
+        # There are many Mockery errors that maybe somebody could help with.
+        - '#Mockery#'
+    treatPhpDocTypesAsCertain: false

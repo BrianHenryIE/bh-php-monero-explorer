@@ -1,0 +1,104 @@
+{
+    "major_version": 14,
+    "miner_tx": {
+        "extra": [
+            1,
+            213,
+            109,
+            175,
+            250,
+            191,
+            20,
+            32,
+            28,
+            26,
+            116,
+            72,
+            63,
+            1,
+            200,
+            251,
+            86,
+            141,
+            249,
+            127,
+            195,
+            39,
+            47,
+            59,
+            75,
+            199,
+            80,
+            22,
+            249,
+            239,
+            54,
+            254,
+            148,
+            2,
+            17,
+            0,
+            0,
+            8,
+            115,
+            116,
+            241,
+            130,
+            43,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+        ],
+        "rct_signatures": {
+            "type": 0
+        },
+        "unlock_time": 2676107,
+        "version": 2,
+        "vin": [
+            {
+                "gen": {
+                    "height": 2676047
+                }
+            }
+        ],
+        "vout": [
+            {
+                "amount": 600276950000,
+                "target": {
+                    "key": "aa30cf6acef2d577426ac444e7338af5d44097d5fea414e0bab87142326f867b"
+                }
+            }
+        ]
+    },
+    "minor_version": 14,
+    "nonce": 69095,
+    "prev_id": "284533b25b96d5dedda2d581be6bbcdc45d9c17aab79fffd9b210ac4164c561a",
+    "timestamp": 1658880017,
+    "tx_hashes": [
+        "267dc1da1473bf859ef7e0af52050367aa03676de6efd9618dc4bb1f7ed366ae",
+        "63f1a4e54e205c50df44b78847222eef3c069975501ac2092f914aa6961093cf",
+        "316e9ddf5ab8e60d611bbfb62e006cbf11bf225075b3a86a80d75973c543e054",
+        "5b92dd213a9ad7b29e13aed4ae83eeff9c86ceae5511be4693c9efa071d184d3",
+        "c2de1dfe576103795c9c725646d0aa0c6523b7c3b60c87e4250764e80f049bb8",
+        "1ab36b0190b619d18540e17e02f467f3103b5c9805e209f258f3cf0a5391cbc4",
+        "d9830acd847a5965b8abae35a0cbeebe7213ab8d1ba743ea439c2b31827bad98",
+        "529deaeb394b9b9d856e5797e16e96eaff99c1ad7e98e63d0fd93c40c304369c",
+        "3d0996d7a0d4eb7f33bb57ffc30ccfb77107a60399831fc3e043105ef7393b4b",
+        "6c53714cea3363fa115ebef91217984caf3a426b0feedb50ed2f699a24b950cd",
+        "d468e24d9a69e774eb2da222ee8a53eda089aa4403335d7910cdbbb2e2a8e7fd",
+        "837e32f40f10c4d4ce7fbf9b3b36c0aceb284e979dd9c3070b8e3e5ad8236b4d",
+        "9a86f286ee2469b6b6cc01410f35a106cd8a81ee05367d592929de3dfca69770",
+        "2773f57e0b8355e4eb1c8578a860ae8fa18ba04ce287f317b9ac015d42e3ee24",
+        "703965b9d49bd54d457bfc2d1ffa5b42500d47752228d46e87d45ccfc6b5a9ff",
+        "0bc5a64afb4b9b3ea130f43131441efda99287898e195dec0686a3b770089460",
+        "2aea6b579199894d333468ba061eaa9221bd834c4c06b087d8000996bbbcf7b2",
+        "998803abd3cd1dbd11c3953560397cad6d55b4d32f39a051a769942a019c3e06",
+        "0025b2a56990cf1de1dc7481746cf6c0444970b03d6c6891cb58572e2ceffac7"
+    ]
+}

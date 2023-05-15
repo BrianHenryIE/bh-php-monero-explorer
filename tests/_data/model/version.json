@@ -1,0 +1,8 @@
+{
+    "api": 65538,
+    "blockchain_height": 2883913,
+    "git_branch_name": "master",
+    "last_git_commit_date": "2023-03-28",
+    "last_git_commit_hash": "d669720",
+    "monero_version_full": "0.18.2.0-release"
+}

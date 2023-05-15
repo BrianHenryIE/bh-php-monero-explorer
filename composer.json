@@ -1,0 +1,64 @@
+{
+  "name": "brianhenryie/bh-php-monero-explorer",
+  "description": "Monero HTTP client.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Monero Integrations",
+      "email": "support@monerointegrations.com"
+    },
+    {
+      "name": "BrianHenryIE",
+      "email": "brian@BrianHenry.ie"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "process-timeout": 0,
+    "sort-packages": true,
+    "allow-plugins": {
+      "cweagans/composer-patches": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "phpstan/extension-installer": true
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "BrianHenryIE\\MoneroExplorer\\": "src"
+    }
+  },
+  "require": {
+    "ext-json": "*",
+    "json-mapper/json-mapper": "*",
+    "miwebb/jsend": "^3.0",
+    "psr/http-client": "*",
+    "psr/http-factory": "*"
+  },
+  "require-dev": {
+    "cweagans/composer-patches": "*",
+    "dealerdirect/phpcodesniffer-composer-installer": "*",
+    "guzzlehttp/guzzle": "^7.4",
+    "jaschilz/php-coverage-badger": "^2.0",
+    "mockery/mockery": "^1.5",
+    "phpstan/extension-installer": "*",
+    "phpunit/phpcov": "*",
+    "squizlabs/php_codesniffer": "*"
+  },
+  "patches": {
+    "jaschilz/php-coverage-badger": {
+      "Allow customising the text": "https://github.com/JASchilz/PHPCoverageBadge/pull/1.patch"
+    }
+  },
+  "scripts": {
+    "test": [
+      "phpunit"
+    ],
+    "lint": [
+      "phpcbf || true",
+      "phpcs || true",
+      "phpstan"
+    ]
+  }
+}
