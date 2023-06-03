@@ -84,6 +84,7 @@ class ExplorerTools extends ExplorerApi
 	    $txs     = array();
         $outputs = $this->getOutputsBlocks($payment_address, $viewkey)->getOutputs();
         foreach ($outputs as $payment) {
+            // TODO OutputsBlocksOutput not yet implemented.
             if ($payment_id === $payment->getPaymentId()) {
                 $txs[] = array(
                     'amount' => $payment->getAmount(),
