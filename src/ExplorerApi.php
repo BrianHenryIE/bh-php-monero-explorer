@@ -54,7 +54,9 @@ use BrianHenryIE\MoneroExplorer\Model\Transactions;
 use BrianHenryIE\MoneroExplorer\Model\Version;
 use Exception;
 use JsonException;
+use JsonMapper\Enums\TextNotation;
 use JsonMapper\JsonMapperFactory;
+use JsonMapper\Middleware\CaseConversion;
 use miWebb\JSend\JSend;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
@@ -419,15 +421,16 @@ class ExplorerApi
         $jsend = JSend::decode($response->getBody());
 
         if ($jsend->getStatus() !== JSend::SUCCESS) {
-            throw new Exception('API: ' . $jsend->getStatus() . ( $jsend->getMessage() ? ": {$jsend->getMessage()}" : '' ));
+            throw new Exception(sprintf(
+                'API: %s %s',
+                $jsend->getStatus(),
+                $jsend->getMessage() ? ": {$jsend->getMessage()}" : ''
+            ));
         }
 
         $mapper = (new JsonMapperFactory())->bestFit();
 
-        $mapper->push(new \JsonMapper\Middleware\CaseConversion(
-            \JsonMapper\Enums\TextNotation::UNDERSCORE(),
-            \JsonMapper\Enums\TextNotation::CAMEL_CASE()
-        ));
+        $mapper->push(new CaseConversion(TextNotation::UNDERSCORE(), TextNotation::CAMEL_CASE()));
 
         return $mapper->mapToClass(json_decode(json_encode($jsend->getData())), $type);
     }

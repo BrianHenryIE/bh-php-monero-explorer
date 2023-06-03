@@ -15,7 +15,6 @@ declare(strict_types=1);
 
 namespace BrianHenryIE\MoneroExplorer;
 
-use BrianHenryIE\MoneroExplorer\Model\OutputsOutput;
 use Exception;
 
 /**
@@ -68,6 +67,7 @@ class ExplorerTools extends ExplorerApi
         return false;
     }
 
+
     /**
      *
      *
@@ -79,9 +79,9 @@ class ExplorerTools extends ExplorerApi
      */
     public function verifyPaymentInMempool(string $payment_id, string $payment_address, string $viewkey): array
     {
-	    throw new Exception('Not yet implemented');
+        throw new Exception('Not yet implemented');
 
-	    $txs     = array();
+        $txs     = array();
         $outputs = $this->getOutputsBlocks($payment_address, $viewkey)->getOutputs();
         foreach ($outputs as $payment) {
             // TODO OutputsBlocksOutput not yet implemented.
