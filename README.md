@@ -2,7 +2,6 @@
 
 # Monero Explorer PHP Client
 
-> ⚠️ **Incomplete / Work in progress**: This is not yet ready for use in production. Watch the repo for updates. Star the repo for encouragement. 
 
 A thin, strongly typed PHP SDK for [Onion Monero Blockchain Explorer](https://github.com/moneroexamples/onion-monero-blockchain-explorer/) instances' HTTP API, e.g. [xmrchain.net](https://xmrchain.net/).  
 
@@ -22,8 +21,10 @@ composer config prefer-stable true
 
 composer config repositories.brianhenryie/bh-php-monero-explorer git https://github.com/brianhenryie/bh-php-monero-explorer
 
-composer require --dev --fixed brianhenryie/bh-php-monero-explorer
+composer require --fixed brianhenryie/bh-php-monero-explorer
 ```
+
+You also need a [PSR-7 implementation](https://packagist.org/providers/psr/http-client-implementation) and a [PSR-17 implementation](https://packagist.org/providers/psr/http-factory-implementation), the most popular being `guzzlehttp/guzzle`. 
 
 `ExplorerApi` is a direct mapping of [API endpoints](https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L656-L837) to PHP functions.
 
@@ -57,6 +58,8 @@ To accept a payment with Monero...
 1. Note the blockchain height at that time
 1. Periodically/progressively check new blocks since then inspecting for payment
 
+See: [`examples/VerifyingPaymentsReceived.php`](https://github.com/BrianHenryIE/bh-php-monero-explorer/blob/master/examples/VerifyingPaymentsReceived.php).
+
 ## Implementation
 
 Initial `class-monero-explorer-tools.php` extracted from [monero-integrations/monerowp](https://github.com/monero-integrations/monerowp/blob/9ba2b640f7bd31441f9994dd66916bf480ed9016/include/class-monero-explorer-tools.php).
@@ -67,16 +70,20 @@ Initial `class-monero-explorer-tools.php` extracted from [monero-integrations/mo
 * [ ] Unit tested: 100% should be achievable on what is just a thin wrapper
 * [x] Use [PSR-7 HTTP client](https://www.php-fig.org/psr/psr-7/) | [PSR-17 HTTP factory](https://www.php-fig.org/psr/psr-17/)
 * [ ] PhpDoc
-* [ ] Short tutorial
+* [x] Short tutorial
 
 ### Notes
 
 * API is read-only
 * API responses are JSON formatted using the [JSend](https://github.com/omniti-labs/jsend) convention
 
-Composer required libraries:
+### Composer
+
+The required libraries were chosen due to their robust code coverage:
+
 * [miWebb/JSend](https://github.com/miWebb/JSend) - 100% coverage
 * [JsonMapper/JsonMapper](https://github.com/JsonMapper/JsonMapper) | [JsonMapper.net](https://jsonmapper.net) - 100% coverage
+
 
 ## Acknowledgements
 
