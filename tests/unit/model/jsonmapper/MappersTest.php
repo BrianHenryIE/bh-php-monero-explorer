@@ -9,18 +9,18 @@ class MappersTest extends \PHPUnit\Framework\TestCase
     public function data(): array
     {
         return [
-            [ 'block.json', BlockMapper::class ],
-//            [ 'detailed_transaction.json', EmissionMapper::class ],
-            [ 'emission.json', EmissionMapper::class ],
-            [ 'mempool.json', MempoolMapper::class ],
-            [ 'outputs.json', OutputsMapper::class ],
-            [ 'network_info.json', NetworkInfoMapper::class ],
-//            [ 'outputs_blocks.json', OutputsBlocksMapper::class ],
-            [ 'raw_block.json', RawBlockMapper::class ],
-            [ 'raw_transaction.json', RawTransactionMapper::class ],
-            [ 'transaction.json', TransactionMapper::class ],
-            [ 'transactions.json', TransactionsMapper::class ],
-            [ 'version.json', VersionMapper::class ],
+            'block.json'                => [ 'block.json', BlockMapper::class ],
+//            'detailed_transaction.json' => [ 'detailed_transaction.json', EmissionMapper::class ],
+            'emission.json'             => [ 'emission.json', EmissionMapper::class ],
+            'mempool.json'              => [ 'mempool.json', MempoolMapper::class ],
+            'outputs.json'              => [ 'outputs.json', OutputsMapper::class ],
+            'network_info.json'         => [ 'network_info.json', NetworkInfoMapper::class ],
+//            'outputs_blocks.json'       => [ 'outputs_blocks.json', OutputsBlocksMapper::class ],
+            'raw_block.json'            => [ 'raw_block.json', RawBlockMapper::class ],
+            'raw_transaction.json'      => [ 'raw_transaction.json', RawTransactionMapper::class ],
+            'transaction.json'          => [ 'transaction.json', TransactionMapper::class ],
+            'transactions.json'         => [ 'transactions.json', TransactionsMapper::class ],
+            'version.json'              => [ 'version.json', VersionMapper::class ],
         ];
     }
 
