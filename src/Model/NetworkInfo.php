@@ -96,9 +96,12 @@ interface NetworkInfo
     /**
       * General RPC error code. "OK" means everything looks good.
      * 0|CORE_RPC_STATUS_OK|CORE_RPC_STATUS_BUSY
-     * TODO: check type
+     *
+     *
+     * TODO: check type. It looks like a bool in the returned JSON, but looks like an ENUM in the C code, and is defined
+     * as a string in `developer-guides/daemon-rpc.html`.
       */
-    public function getStatus(): int;
+    public function isStatus(): bool;
 
     /**
       * Current target for next proof of work.
