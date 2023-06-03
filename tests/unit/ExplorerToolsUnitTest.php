@@ -43,7 +43,7 @@ class ExplorerToolsUnitTest extends TestCase
     }
 
     /**
-     * @covers ::getMempoolTxs
+     * @covers ::getMempool
      */
     public function testGetMempoolTxs(): void
     {
