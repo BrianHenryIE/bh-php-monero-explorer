@@ -10,6 +10,7 @@ name: Code Coverage
 #  git add index.html
 #  git commit -m 'Set up gh-pages branch' index.html
 #  git push origin gh-pages
+#  git checkout master
 #
 # @author BrianHenryIE
 
