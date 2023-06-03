@@ -37,6 +37,38 @@ class ExplorerTools extends ExplorerApi
     }
 
     /**
+     * Fetches a block by height and loops over its transactions
+     *
+     * @param int $blockHeight The block to query.
+     * @param string $paymentAddress The receiving address.
+     * @param string $viewkey The viewkey – secret viewkey when receiving payments, the transaction viewkey when proving payments.
+     * @param bool $txProve
+     *
+     * @return bool
+     */
+    public function isBlockContainsPayment(int $blockHeight, string $paymentAddress, string $viewkey, bool $txProve = false): bool
+    {
+        $block = $this->getBlock($blockHeight);
+
+        foreach ($block->getTxs() as $transaction) {
+            $outputs = $this->getOutputs(
+                $transaction->getTxHash(),
+                $paymentAddress,
+                $viewkey,
+                false
+            );
+
+            foreach ($outputs->getOutputs() as $output) {
+                if ($output->isMatch()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      *
      *
      * @param string $payment_id
