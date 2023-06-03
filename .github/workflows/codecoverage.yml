@@ -26,7 +26,7 @@ jobs:
     steps:
 
       - name: Git checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install PHP
         uses: shivammathur/setup-php@v2
@@ -35,7 +35,7 @@ jobs:
           coverage: xdebug
 
       - name: Checkout GitHub Pages branch for code coverage report
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: gh-pages
           path: tests/reports/html
@@ -62,7 +62,7 @@ jobs:
           cd ../../..
 
       - name: Commit code coverage to gh-pages
-        uses: stefanzweifel/git-auto-commit-action@v4.1.1
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
           repository: tests/reports/html
           branch: gh-pages
@@ -75,7 +75,7 @@ jobs:
         run: vendor/bin/php-coverage-badger tests/reports/clover.xml .github/coverage.svg
 
       - name: Commit code coverage badge
-        uses: stefanzweifel/git-auto-commit-action@v4.1.1
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "🤖 Commit code coverage badge"
 
