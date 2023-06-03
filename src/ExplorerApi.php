@@ -275,7 +275,7 @@ class ExplorerApi
      */
     public function getSearch($value): Search
     {
-        throw new Exception('Not yet implemented');
+        trigger_error('`search` JSON parsing not yet implemented', E_USER_WARNING);
 
         if (! (is_int($value) || is_string($value))) {
             throw new \InvalidArgumentException();
@@ -363,7 +363,7 @@ class ExplorerApi
      */
     public function getOutputsBlocks(string $address, string $viewkey, int $limit = 5, bool $mempool = true): OutputsBlocks
     {
-        throw new Exception('Not yet implemented');
+        trigger_error('Full `outputsblocks` JSON parsing not yet implemented', E_USER_WARNING);
 
         $endpoint = sprintf(
             'outputsblocks?address=%s&viewkey=%s&limit=%d&mempool=%d',
