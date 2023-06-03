@@ -6,6 +6,10 @@ use JsonMapper\JsonMapperFactory;
 
 class MappersTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     *
+     * @return array<string, string[]>
+     */
     public function data(): array
     {
         return [
@@ -26,6 +30,10 @@ class MappersTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider data
+     *
+     * @template T of object
+     * @param string $filename The test .json file.
+     * @param class-string<T> $type The object type to cast/deserialize the response to.
      */
     public function testMappers($filename, $type): void
     {

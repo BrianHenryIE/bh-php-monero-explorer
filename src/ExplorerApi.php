@@ -398,10 +398,10 @@ class ExplorerApi
      *
      * @see https://github.com/omniti-labs/jsend
      *
-     * @template T
+     * @template T of object
      * @param string $endpoint The REST route, excluding the domain.
      * @param class-string<T> $type The object type to cast/deserialize the response to.
-     * @returns T
+     * @return T
      *
      * @throws ClientExceptionInterface PSR HTTP client exception.
      * @throws JsonException

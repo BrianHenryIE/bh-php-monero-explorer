@@ -96,7 +96,7 @@ class OutputsBlocksMapper implements OutputsBlocks
     }
 
     /**
-      *  @param OutputsBlocksOutput[] $outputs
+      *  @param OutputsBlocksOutputMapper[] $outputs
       */
     public function setOutputs(array $outputs): void
     {

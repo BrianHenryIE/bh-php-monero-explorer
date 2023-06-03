@@ -37,7 +37,7 @@ class RawTransactionVoutMapper implements RawTransactionVout
     }
 
     /**
-     * @param RawTransactionVoutTarget $target
+     * @param RawTransactionVoutTargetMapper $target
      */
     public function setTarget(RawTransactionVoutTarget $target): void
     {
