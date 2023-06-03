@@ -40,6 +40,7 @@ use BrianHenryIE\MoneroExplorer\Model\JsonMapper\RawBlockMapper;
 use BrianHenryIE\MoneroExplorer\Model\JsonMapper\RawTransactionMapper;
 use BrianHenryIE\MoneroExplorer\Model\JsonMapper\SearchMapper;
 use BrianHenryIE\MoneroExplorer\Model\JsonMapper\TransactionMapper;
+use BrianHenryIE\MoneroExplorer\Model\JsonMapper\TransactionsMapper;
 use BrianHenryIE\MoneroExplorer\Model\JsonMapper\VersionMapper;
 use BrianHenryIE\MoneroExplorer\Model\Mempool;
 use BrianHenryIE\MoneroExplorer\Model\NetworkInfo;
@@ -49,6 +50,7 @@ use BrianHenryIE\MoneroExplorer\Model\RawBlock;
 use BrianHenryIE\MoneroExplorer\Model\RawTransaction;
 use BrianHenryIE\MoneroExplorer\Model\Search;
 use BrianHenryIE\MoneroExplorer\Model\Transaction;
+use BrianHenryIE\MoneroExplorer\Model\Transactions;
 use BrianHenryIE\MoneroExplorer\Model\Version;
 use Exception;
 use JsonException;
@@ -228,15 +230,13 @@ class ExplorerApi
      */
     public function getTransactions(int $page = 0, int $limit = 25): Transactions
     {
-        throw new Exception('Not yet implemented');
-
         $endpoint = sprintf(
             'transactions?page=%d&limit=%d',
             $page,
             $limit
         );
 
-        return $this->callApi($endpoint, TransactionMapper::class);
+        return $this->callApi($endpoint, TransactionsMapper::class);
     }
 
     /**

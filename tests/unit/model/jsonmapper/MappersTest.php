@@ -19,6 +19,7 @@ class MappersTest extends \PHPUnit\Framework\TestCase
             [ 'raw_block.json', RawBlockMapper::class ],
             [ 'raw_transaction.json', RawTransactionMapper::class ],
             [ 'transaction.json', TransactionMapper::class ],
+            [ 'transactions.json', TransactionsMapper::class ],
             [ 'version.json', VersionMapper::class ],
         ];
     }
