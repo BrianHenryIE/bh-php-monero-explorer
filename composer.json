@@ -33,8 +33,8 @@
     "ext-json": "*",
     "json-mapper/json-mapper": "*",
     "miwebb/jsend": "^3.0",
-    "psr/http-client": "*",
-    "psr/http-factory": "*"
+    "psr/http-client-implementation": "*",
+    "psr/http-factory-implementation": "*"
   },
   "require-dev": {
     "cweagans/composer-patches": "*",
