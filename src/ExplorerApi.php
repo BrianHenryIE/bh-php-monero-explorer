@@ -38,7 +38,6 @@ use BrianHenryIE\MoneroExplorer\Model\JsonMapper\OutputsBlocksMapper;
 use BrianHenryIE\MoneroExplorer\Model\JsonMapper\OutputsMapper;
 use BrianHenryIE\MoneroExplorer\Model\JsonMapper\RawBlockMapper;
 use BrianHenryIE\MoneroExplorer\Model\JsonMapper\RawTransactionMapper;
-use BrianHenryIE\MoneroExplorer\Model\JsonMapper\SearchMapper;
 use BrianHenryIE\MoneroExplorer\Model\JsonMapper\TransactionMapper;
 use BrianHenryIE\MoneroExplorer\Model\JsonMapper\TransactionsMapper;
 use BrianHenryIE\MoneroExplorer\Model\JsonMapper\VersionMapper;
