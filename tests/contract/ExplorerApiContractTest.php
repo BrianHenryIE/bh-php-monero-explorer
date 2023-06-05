@@ -203,9 +203,10 @@ class ExplorerApiContractTest extends TestCase
         self::expectNotToPerformAssertions();
     }
 
-
     /**
      * @covers ::getOutputsBlocks
+     *
+     * TODO: Test supplying a negative limit. I presume the minimum is 1.
      */
     public function testGetOutputsBlocks(): void
     {

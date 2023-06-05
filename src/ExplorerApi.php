@@ -374,18 +374,41 @@ class ExplorerApi
      *
      * @param string $address
      * @param string $viewkey
-     * @param int<0,5> $limit
-     * @param bool   $mempool
+     * @param int<1,5> $limit Max (up to 5) number of blocks to return.
+     * @param bool   $mempool Additionally check in the mempool.
      */
-    public function getOutputsBlocks(string $address, string $viewkey, int $limit = 5, bool $mempool = true): OutputsBlocks
-    {
+    public function getOutputsBlocks(
+        string $address,
+        string $viewkey,
+        int $limit = 5,
+        bool $mempool = false
+    ): OutputsBlocks {
         trigger_error('Full `outputsblocks` JSON parsing not yet implemented', E_USER_WARNING);
+
+        $sanitized_limit = max(1, min($limit, 5));
+
+        if ($limit !== $sanitized_limit) {
+            trigger_error(
+                "ExplorerApi::getOutputsBlocks() Limit must be between 1 and 5, $limit used.",
+                E_USER_WARNING
+            );
+        }
+
+        if (empty($address)) {
+            // @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5525-L5529
+            throw new \InvalidArgumentException("Monero address not provided");
+        }
+
+        if (empty($viewkey)) {
+            // @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5532-L5537
+            throw new \InvalidArgumentException("Viewkey not provided");
+        }
 
         $endpoint = sprintf(
             'outputsblocks?address=%s&viewkey=%s&limit=%d&mempool=%d',
             $address,
             $viewkey,
-            min($limit, 5),
+            $sanitized_limit,
             (int) $mempool
         );
 
