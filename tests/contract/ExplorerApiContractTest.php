@@ -10,6 +10,8 @@
 
 namespace BrianHenryIE\MoneroExplorer;
 
+use BrianHenryIE\MoneroExplorer\Model\Block;
+use BrianHenryIE\MoneroExplorer\Model\Transaction;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\HttpFactory;
 use PHPUnit\Framework\TestCase;
@@ -121,28 +123,50 @@ class ExplorerApiContractTest extends TestCase
         self::expectNotToPerformAssertions();
     }
 
-
-    public function testGetSearch(): void
+    public function testGetSearchTransactionHash(): void
     {
-        $this->markTestIncomplete('Search not yet implemented.');
         $requestFactory = new HttpFactory();
         $client = new Client();
 
         $sut = new ExplorerApi($requestFactory, $client);
 
-        $sut->getSearch('invalidvalue');
+        $result = $sut->getSearch('2773f57e0b8355e4eb1c8578a860ae8fa18ba04ce287f317b9ac015d42e3ee24');
 
-        self::expectNotToPerformAssertions();
+        self::assertInstanceOf(Transaction::class, $result);
     }
 
-    public function testGetNetworkInfo(): void
+    public function testGetSearchBlockHash(): void
     {
         $requestFactory = new HttpFactory();
         $client = new Client();
 
         $sut = new ExplorerApi($requestFactory, $client);
 
-        $sut->getNetworkInfo();
+        $result = $sut->getSearch('6370f4fea197d2537585ab88e4b7b3ee2a7024daef211c71ddea39f0eb789f8c');
+
+        self::assertInstanceOf(Block::class, $result);
+    }
+
+    public function testGetSearchBlockNumber(): void
+    {
+        $requestFactory = new HttpFactory();
+        $client = new Client();
+
+        $sut = new ExplorerApi($requestFactory, $client);
+
+        $result = $sut->getSearch('2676047');
+
+        self::assertInstanceOf(Block::class, $result);
+    }
+
+    public function testGetNetworkInfoBlockNumber(): void
+    {
+        $requestFactory = new HttpFactory();
+        $client = new Client();
+
+        $sut = new ExplorerApi($requestFactory, $client);
+
+        $result = $sut->getNetworkInfo();
 
         self::expectNotToPerformAssertions();
     }

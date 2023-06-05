@@ -264,6 +264,9 @@ class ExplorerApi
     }
 
     /**
+     * Search for a transaction by hash or a block by hash or block number.
+     *
+     * Search returns one of Transaction or Block with an additional field "title".
      *
      * `api/search/<query>`
      * `curl https://xmrchain.net/api/search/12345 | jq`
@@ -275,8 +278,6 @@ class ExplorerApi
      */
     public function getSearch($value): Search
     {
-        trigger_error('`search` JSON parsing not yet implemented', E_USER_WARNING);
-
         if (! (is_int($value) || is_string($value))) {
             throw new \InvalidArgumentException();
         }
@@ -286,7 +287,23 @@ class ExplorerApi
             (string) $value
         );
 
-        return $this->callApi($endpoint, SearchMapper::class);
+        $searchResult = $this->callApi($endpoint, \stdClass::class);
+
+        $mapper = (new JsonMapperFactory())->bestFit();
+
+        switch ($searchResult->title) {
+            case 'transaction':
+                $type = TransactionMapper::class;
+                break;
+            case 'block':
+                $type = BlockMapper::class;
+                break;
+            default:
+                throw new UnexpectedValueException();
+        }
+
+        return $mapper->mapToClass($searchResult, $type);
+        return $result;
     }
 
     /**

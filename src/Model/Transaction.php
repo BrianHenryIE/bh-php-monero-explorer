@@ -6,7 +6,7 @@
 
 namespace BrianHenryIE\MoneroExplorer\Model;
 
-interface Transaction
+interface Transaction extends Search
 {
     /**
       *

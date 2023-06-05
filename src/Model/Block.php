@@ -2,7 +2,7 @@
 
 namespace BrianHenryIE\MoneroExplorer\Model;
 
-interface Block
+interface Block extends Search
 {
     /**
       *
