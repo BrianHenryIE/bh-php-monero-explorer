@@ -13,15 +13,8 @@ Fetching and parsing JSON is very easy with PHP, so this library's value comes f
 
 Before v1.0, function signatures are expected to change as they are properly documented.
 
-The library is not yet on Packagist but can still be installed via Composer:
-
 ```bash
-composer config minimum-stability dev
-composer config prefer-stable true
-
-composer config repositories.brianhenryie/bh-php-monero-explorer git https://github.com/brianhenryie/bh-php-monero-explorer
-
-composer require --fixed brianhenryie/bh-php-monero-explorer
+composer require --fixed brianhenryie/bh-php-monero-explorer@dev
 ```
 
 You also need a [PSR-7 implementation](https://packagist.org/providers/psr/http-client-implementation) and a [PSR-17 implementation](https://packagist.org/providers/psr/http-factory-implementation), the most popular being `guzzlehttp/guzzle`. 
