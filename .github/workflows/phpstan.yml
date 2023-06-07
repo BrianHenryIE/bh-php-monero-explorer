@@ -50,12 +50,12 @@ jobs:
           COLOUR_IMAGE_URL: https://img.shields.io/badge/PHPStan-Level%205-2a5ea7.svg
           GREY_IMAGE_URL: https://img.shields.io/badge/PHPStan-Level%208❌-lightgrey.svg
         run: | # 0 is exit success.
+          echo $PHPSTAN_RESULT
           if [[ $PHPSTAN_RESULT == 0 ]]; then
-            PHPSTAN_BADGE_URL=$COLOUR_IMAGE
+            curl -o .github/phpstan.svg $COLOUR_IMAGE_URL
           else
-            PHPSTAN_BADGE_URL=$GREY_IMAGE
+            curl -o .github/phpstan.svg $GREY_IMAGE_URL
           fi
-          curl -o .github/phpstan.svg $PHPSTAN_BADGE_URL
 
       - name: Commit README badge changes
         uses: stefanzweifel/git-auto-commit-action@v4
