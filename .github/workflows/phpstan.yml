@@ -36,26 +36,18 @@ jobs:
         run: composer install
 
       - name: Run PHPStan to add annotations to the code
+        id: run-phpstan
         continue-on-error: true
         run: |
-          vendor/bin/phpstan analyse -c phpstan.neon --memory-limit 1G --no-progress --error-format=checkstyle > checkstyle.xml
-          echo "PHPSTAN_RESULT=$?" >> "$GITHUB_ENV"
-          echo $PHPSTAN_RESULT
-          cat checkstyle.xml | cs2pr
-          rm checkstyle.xml
+          vendor/bin/phpstan analyse -c phpstan.neon --memory-limit 1G --no-progress --error-format=checkstyle | cs2pr
 
-      - name: Update the README badge
-        env:
-          PHPSTAN_RESULT: ${{ env.PHPSTAN_RESULT }}
-          COLOUR_IMAGE_URL: https://img.shields.io/badge/PHPStan-Level%205-2a5ea7.svg
-          GREY_IMAGE_URL: https://img.shields.io/badge/PHPStan-Level%208❌-lightgrey.svg
-        run: | # 0 is exit success.
-          echo $PHPSTAN_RESULT
-          if [[ $PHPSTAN_RESULT == 0 ]]; then
-            curl -o .github/phpstan.svg $COLOUR_IMAGE_URL
-          else
-            curl -o .github/phpstan.svg $GREY_IMAGE_URL
-          fi
+      - name: Check success
+        if: steps.run-phpstan.outcome == 'success'
+        run: curl -o .github/phpstan.svg https://img.shields.io/badge/PHPStan-Level%205-2a5ea7.svg
+
+      - name: Check failures
+        if: steps.run-phpstan.outcome != 'success'
+        run: curl -o .github/phpstan.svg https://img.shields.io/badge/PHPStan-Level%208❌-lightgrey.svg
 
       - name: Commit README badge changes
         uses: stefanzweifel/git-auto-commit-action@v4
