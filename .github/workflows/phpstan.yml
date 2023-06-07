@@ -40,6 +40,7 @@ jobs:
         run: |
           vendor/bin/phpstan analyse -c phpstan.neon --memory-limit 1G --no-progress --error-format=checkstyle > checkstyle.xml
           echo "PHPSTAN_RESULT=$?" >> "$GITHUB_ENV"
+          echo $PHPSTAN_RESULT
           cat checkstyle.xml | cs2pr
           rm checkstyle.xml
 
