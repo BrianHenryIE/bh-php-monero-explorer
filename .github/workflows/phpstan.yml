@@ -41,14 +41,14 @@ jobs:
         run: |
           vendor/bin/phpstan analyse -c phpstan.neon --memory-limit 1G --no-progress --error-format=checkstyle | cs2pr
 
-      - uses: rmeneely/get-yaml-value@v1
+      - uses: CumulusDS/get-yaml-paths-action@v1.0.1
         id: get-phpstan-level
         with:
-          infile: phpstan.neon
-          varlist: 'parameters.level'
+          file: phpstan.neon
+          level: parameters.level
 
       - name: Test var
-        run: echo steps.get-phpstan-level.outputs.values
+        run: echo steps.get-phpstan-level.outputs.level
 
       - name: Check success
         if: steps.run-phpstan.outcome == 'success'
