@@ -41,22 +41,19 @@ jobs:
         run: |
           vendor/bin/phpstan analyse -c phpstan.neon --memory-limit 1G --no-progress --error-format=checkstyle | cs2pr
 
-      - uses: CumulusDS/get-yaml-paths-action@v1.0.1
-        id: get-phpstan-level
-        with:
-          file: phpstan.neon
-          level: parameters.level
-
-      - name: Test var
-        run: echo steps.get-phpstan-level.outputs.level
+      - name: Get PhpStan level
+        id: phpstan-level
+        run: |
+          LEVEL=$(cat phpstan.neon | grep level | sed "s/[^0-9]*//")
+          echo "level=$LEVEL" >> "$GITHUB_OUTPUT" 
 
       - name: Check success
         if: steps.run-phpstan.outcome == 'success'
-        run: curl -o .github/phpstan.svg https://img.shields.io/badge/PHPStan-Level%205-2a5ea7.svg
+        run: curl -o .github/phpstan.svg https://img.shields.io/badge/PHPStan-Level%20${{ steps.phpstan-level.outputs.level}}-2a5ea7.svg
 
       - name: Check failures
         if: steps.run-phpstan.outcome != 'success'
-        run: curl -o .github/phpstan.svg https://img.shields.io/badge/PHPStan-Level%208❌-lightgrey.svg
+        run: curl -o .github/phpstan.svg https://img.shields.io/badge/PHPStan-Level%20${{ steps.phpstan-level.outputs.level}}❌-lightgrey.svg
 
       - name: Commit README badge changes
         uses: stefanzweifel/git-auto-commit-action@v4
