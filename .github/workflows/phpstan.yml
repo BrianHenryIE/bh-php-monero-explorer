@@ -41,6 +41,15 @@ jobs:
         run: |
           vendor/bin/phpstan analyse -c phpstan.neon --memory-limit 1G --no-progress --error-format=checkstyle | cs2pr
 
+      - uses: rmeneely/get-yaml-value@v1
+        id: get-phpstan-level
+        with:
+          infile: phpstan.neon
+          varlist: 'parameters.level'
+
+      - name: Test var
+        run: echo steps.get-phpstan-level.outputs.values
+
       - name: Check success
         if: steps.run-phpstan.outcome == 'success'
         run: curl -o .github/phpstan.svg https://img.shields.io/badge/PHPStan-Level%205-2a5ea7.svg
