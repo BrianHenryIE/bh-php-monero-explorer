@@ -1,0 +1,66 @@
+name: Run PHPStan
+
+# Run PHPStan to annotate the code
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  phpstan:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php: [ '8.0' ]
+
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the
+      # added or changed files to the repository.
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer, cs2pr
+          extensions: zip
+
+      - name: Run composer install
+        continue-on-error: true
+        run: composer install
+
+      - name: Run PHPStan to add annotations to the code
+        continue-on-error: true
+        run: |
+          mkfifo pipe
+          cs2pr < pipe &
+          vendor/bin/phpstan analyse -c phpstan.neon --memory-limit 1G --no-progress --error-format=checkstyle > pipe
+          echo "PHPSTAN_RESULT=$?" >> "$GITHUB_ENV"
+
+      - name: Update the README badge
+        env:
+          PHPSTAN_RESULT: ${{ env.PHPSTAN_RESULT }}
+          COLOUR_IMAGE: https://img.shields.io/badge/PHPStan-Level%205-2a5ea7.svg
+          GREY_IMAGE: https://img.shields.io/badge/PHPStan-Level%208❌-lightgrey.svg
+        run: | # 0 is exit success.
+          if [[ $PHPSTAN_RESULT == 0 ]]; then
+            FROM_IMAGE=$GREY_IMAGE
+            TO_IMAGE=$COLOUR_IMAGE
+          else
+            FROM_IMAGE=$COLOUR_IMAGE
+            TO_IMAGE=$GREY_IMAGE
+          fi
+          find . -name 'README.md' -exec sed -i "s/$FROM_IMAGE/$TO_IMAGE/" {} +
+
+      - name: Commit README badge changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          file_pattern: "README.md"
+          commit_message: "🤖 PhpStan"
+
