@@ -2,6 +2,13 @@
 
 namespace BrianHenryIE\MoneroExplorer\Model;
 
+/**
+ * The mempool ("memory pool") holds transactions that have been broadcast but
+ * not yet mined into a block; they have zero confirmations and MAY still be
+ * dropped or never confirm. Each node has its OWN mempool — contents differ
+ * slightly between nodes depending on propagation — so this reflects the
+ * explorer's backing node, not a global truth.
+ */
 final readonly class Mempool
 {
     public function __construct(

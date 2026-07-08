@@ -58,6 +58,25 @@ use UnexpectedValueException;
  *
  * Use `sprintf()` to interpolate the path and querystring parameters.
  *
+ * WHAT A BLOCK EXPLORER IS: a Monero NODE (monerod) validates and stores the
+ * chain; an EXPLORER like xmrblocks is an indexer over that node's public
+ * chain data, exposing it over HTTP. Everything an explorer serves is public
+ * information — but Monero hides recipients (stealth addresses), amounts
+ * (RingCT), and the real spent output in each ring, so "public" reveals far
+ * less than on transparent chains. The `outputs`/`outputsblocks` endpoints
+ * can decode more, but only when YOU supply a view key.
+ *
+ * TRUST MODEL: an explorer can lie or be compromised. Statements that matter
+ * (a payment was received/sent) are independently verifiable: view-key output
+ * decoding and `txprove` are cryptographic checks any instance — including
+ * your own (see docker-compose.yml in this repository) — will reproduce.
+ *
+ * RESPONSE ENVELOPE: all responses are JSend — `{"status": "success", "data": {...}}`,
+ * or `status` of `fail`/`error` with a `message` (surfaced as exceptions here).
+ *
+ * @see https://github.com/omniti-labs/jsend
+ * @see https://www.getmonero.org/resources/moneropedia/
+ *
  * @throws ClientExceptionInterface
  * @throws JsonException
  */
@@ -98,10 +117,10 @@ class ExplorerApi
     }
 
     /**
-     *
+     * Fetch a transaction by its hash, as interpreted/indexed data.
      *
      * `/api/transaction/<string>`
-     * TODO: cURL
+     * `curl "http://127.0.0.1:8081/api/transaction/<txhash>" | jq`
      * @see Transaction
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L661-L667C12
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4395-L4587
@@ -119,10 +138,11 @@ class ExplorerApi
     }
 
     /**
-     *
+     * Fetch a transaction as monerod itself represents it: ring member offsets,
+     * key images, RingCT signature data — no interpretation applied.
      *
      * `/api/rawtransaction/<txhash>`
-     * TODO: cURL
+     * `curl "http://127.0.0.1:8081/api/rawtransaction/<txhash>" | jq`
      * @see RawTransaction
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L669-L675
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4591-L4672
@@ -140,10 +160,14 @@ class ExplorerApi
     }
 
     /**
+     * Fetch a transaction with per-ring-member detail (ages, timescales) as
+     * shown on the explorer's HTML transaction page.
      *
+     * NB: the response is upstream's template context — every scalar arrives
+     * wrapped in a single-element array. See the model's docblock.
      *
      * `/api/detailedtransaction/<string>`
-     * TODO: cURL
+     * `curl "http://127.0.0.1:8081/api/detailedtransaction/<txhash>" | jq`
      * @see DetailedTransaction
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L677-L683
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4675-L4722
@@ -161,10 +185,10 @@ class ExplorerApi
     }
 
     /**
-     *
+     * Fetch a block by height or hash, with its transactions summarized.
      *
      * `/api/block/<block-or-hash>`
-     * TODO: cURL
+     * `curl "http://127.0.0.1:8081/api/block/121" | jq`
      * @see Block
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L685-L691
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4724-L4863
@@ -186,10 +210,11 @@ class ExplorerApi
     }
 
     /**
-     *
+     * Fetch a block as monerod itself represents it (header fields, miner
+     * transaction, transaction hashes).
      *
      * `/api/rawblock/<string>`
-     * TODO: cURL
+     * `curl "http://127.0.0.1:8081/api/rawblock/121" | jq`
      * @see RawBlock
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L693-L699
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4867-L4960
@@ -310,8 +335,14 @@ class ExplorerApi
     }
 
     /**
+     * Total coins created: block rewards (coinbase) plus, separately, the sum
+     * of all transaction fees. Monero has no supply cap; after the initial
+     * emission curve, "tail emission" pays a constant 0.6 XMR per block, so
+     * these values grow forever.
      *
-     * NB: Emission is disabled by default.
+     * NB: Emission is disabled by default (`xmrblocks --enable-emission-monitor`);
+     * the monitor scans the whole chain on first run, so this endpoint may lag
+     * a fresh instance.
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer#enable-monero-emission
      *
      * `/api/emission`
@@ -328,8 +359,27 @@ class ExplorerApi
     /**
      * Get transaction outputs
      *
+     * Decode which of a transaction's outputs belong to an address.
+     *
+     * WHY THIS NEEDS A KEY: Monero outputs are paid to one-time (stealth)
+     * addresses, so the chain never shows who received funds. A wallet's
+     * secret VIEW KEY lets anyone holding it detect the wallet's INCOMING
+     * outputs (never outgoing spends — those need the spend key).
+     *
+     * TWO DIRECTIONS OF PROOF:
+     *  - `$txProve = false`: the RECIPIENT proves receipt — pass the
+     *    recipient's address and secret view key.
+     *  - `$txProve = true`: the SENDER proves they paid — pass the
+     *    RECIPIENT's address and the transaction's TX KEY (per-transaction
+     *    secret the sender's wallet holds) as `$viewkey`.
+     *
+     * PRIVACY WARNING: submitting an address + view key to a THIRD-PARTY
+     * explorer permanently discloses that wallet's incoming transactions to
+     * whoever operates the server. Prefer a self-hosted instance — this
+     * repository ships one (see docker-compose.yml).
+     *
      * `/api/outputs?txhash=%s&address=%s&viewkey=%s&txprove=%d`
-     * TODO: cURL
+     * `curl "http://127.0.0.1:8081/api/outputs?txhash=<txhash>&address=<address>&viewkey=<viewkey>&txprove=0" | jq`
      * @see Outputs
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L758-L790
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5260-L5488
@@ -356,8 +406,16 @@ class ExplorerApi
     /**
      * Search for our outputs in last few blocks (up to 5 blocks), using provided address and viewkey.
      *
+     * Useful for detecting an expected incoming payment (optionally while it is
+     * still unconfirmed, with `$mempool = true`) without running a wallet.
+     *
+     * PRIVACY WARNING: submitting an address + view key to a THIRD-PARTY
+     * explorer permanently discloses that wallet's incoming transactions to
+     * whoever operates the server. Prefer a self-hosted instance — this
+     * repository ships one (see docker-compose.yml).
+     *
      * `/api/outputsblocks?address=<address>&viewkey=<viewkey>&limit=<1-5>&mempool=<0|1>>`.
-     * TODO: cURL
+     * `curl "http://127.0.0.1:8081/api/outputsblocks?address=<address>&viewkey=<viewkey>&limit=5&mempool=1" | jq`
      * @see OutputsBlocks
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L792-L827
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5492-L5672

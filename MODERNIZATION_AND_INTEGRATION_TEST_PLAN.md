@@ -302,3 +302,48 @@ Finally:
 - Do not modify the sibling RPC library from this plan; if `MoneroAmount` is
   shared via a new package, that extraction is its own small task with its own
   tests.
+
+## Implementation notes (added during implementation, July 2026)
+
+Implemented through Phase 6 in nine commits, each verified (unit suite, phpcs,
+phpstan) before committing. Deviations and findings:
+
+- **JsonMapper's constructor middleware requires a `@var` tag in ANY docblock on
+  a promoted parameter** ("Missing tag with name var" otherwise) — so the
+  convention is: every promoted-parameter docblock ends with `@var <type>`.
+- **The middleware also FABRICATES defaults for missing constructor arguments**
+  (a missing `int` hydrates to `0`). Required-field enforcement therefore lives
+  in `ExplorerApi::assertRequiredResponseFieldsPresent()` (reflection diff of
+  non-optional constructor params vs response keys), which throws
+  `IncompleteExplorerResponseException` BEFORE hydration.
+- That validation immediately caught real version skew: `NetworkInfo`'s
+  `fee_estimate` is absent from the older captured fixture — now `?int = null`
+  with the evidence documented.
+- `Transaction` had been silently dropping 7 response fields (inputs, outputs,
+  confirmations, timestamps…); now fully modeled with `TransactionInput`,
+  `TransactionInputMixin`, `TransactionOutput`.
+- `detailedtransaction` responses are upstream's mstch TEMPLATE CONTEXT — every
+  scalar arrives wrapped in a single-element array. Modeled faithfully and
+  documented rather than hidden.
+- `Emission` coinbase/fee are typed as numeric STRINGS (mainnet coinbase
+  exceeds PHP_INT_MAX); the fixture had been captured float-corrupted
+  (`1.8277547995551232e+19`) and was restored to an integer literal. Decoding
+  uses `JSON_BIGINT_AS_STRING` everywhere. `MoneroAmount` adoption remains
+  future work (see sibling repo's BRICK_MATH_DATETIME_ENUMS_PLAN.md).
+- `getSearch()` returns the `Block|Transaction` union (Search marker interface
+  deleted); its duplicate ad-hoc mapper and dead `return` removed.
+- `transactions.json` fixture was still wrapped in its JSend envelope — the old
+  setter-based test passed with NOTHING mapped; unwrapped and now honest.
+- The Phase 1 nettype spike could not run in the implementation sandbox (no
+  Docker): the compose file ships the regtest/mainnet-mode attempt with the
+  private-testnet fallback documented in its header. **First `make
+  integration-up` on a Docker machine resolves the spike.**
+- PhpDoc preservation audit: all pre-conversion prose present, except two
+  TODOs deliberately RESOLVED by the work ("test data has empty array" —
+  fixture now enabled; OutputsBlocksOutput's "I suspect it's <shape>"
+  speculation — replaced by the actual typed properties).
+- PHPStan: 26 errors before → 0 after.
+
+Remaining from this plan: Phase 4's upstream-endpoint enumeration against the
+pinned commit (`bfa342ed…`, including whether `--enable-pusher` exposes JSON
+endpoints) once the stack is running, and the coverage-audit CI script.

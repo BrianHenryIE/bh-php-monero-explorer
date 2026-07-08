@@ -30,9 +30,22 @@ $client = new \GuzzleHttp\Client();
 $explorerApi = new \BrianHenryIE\MoneroExplorer\ExplorerApi( $requestFactory, $client );
 
 /** @var \BrianHenryIE\MoneroExplorer\Model\NetworkInfo $networkInfo */
-$networkInfo = $explorerApi->getNetworkInfo()
+$networkInfo = $explorerApi->getNetworkInfo();
 
-$lastBlockHeight = $networkInfo->getHeight() - 1;
+$lastBlockHeight = $networkInfo->height - 1;
+```
+
+Models are `final readonly` classes with public properties (PHP >= 8.4 is required).
+
+> **Privacy:** `getOutputs()`/`getOutputsBlocks()` send an address and view key to the
+> explorer server, permanently disclosing that wallet's incoming transactions to its
+> operator. Prefer a self-hosted instance — this repository ships one:
+
+```bash
+make integration-up   # monerod (regtest) + monero-wallet-rpc + xmrblocks; first run compiles xmrblocks (~20 min)
+make integration-seed # deterministic test chain: 131 blocks, two seeded payments
+composer test-integration
+make integration-down
 ```
 
 `ExplorerTools` extends `ExplorerApi` to add convenience functions.

@@ -17,7 +17,13 @@ final readonly class Transaction
          * @var bool
          */
         public bool $coinbase,
-        /** @var int */
+        /**
+         * Blocks mined on top of (and including) this transaction's block.
+         * Each confirmation makes reversal exponentially less likely; Monero
+         * convention treats 10 as final, and coinbase outputs unlock after 60.
+         *
+         * @var int
+         */
         public int $confirmations,
         /**
          * The chain height at the time of the query.
