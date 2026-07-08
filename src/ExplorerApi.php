@@ -36,8 +36,6 @@ use BrianHenryIE\MoneroExplorer\Model\JsonMapper\MempoolMapper;
 use BrianHenryIE\MoneroExplorer\Model\JsonMapper\NetworkInfoMapper;
 use BrianHenryIE\MoneroExplorer\Model\JsonMapper\OutputsBlocksMapper;
 use BrianHenryIE\MoneroExplorer\Model\JsonMapper\OutputsMapper;
-use BrianHenryIE\MoneroExplorer\Model\JsonMapper\RawBlockMapper;
-use BrianHenryIE\MoneroExplorer\Model\JsonMapper\RawTransactionMapper;
 use BrianHenryIE\MoneroExplorer\Model\JsonMapper\TransactionMapper;
 use BrianHenryIE\MoneroExplorer\Model\JsonMapper\TransactionsMapper;
 use BrianHenryIE\MoneroExplorer\Model\JsonMapper\VersionMapper;
@@ -57,6 +55,9 @@ use JsonMapper\Enums\TextNotation;
 use JsonMapper\JsonMapperFactory;
 use JsonMapper\Middleware\CaseConversion;
 use BrianHenryIE\MoneroExplorer\Exception\IncompleteExplorerResponseException;
+use JsonMapper\Handler\FactoryRegistry;
+use JsonMapper\Handler\PropertyMapper;
+use JsonMapper\JsonMapperBuilder;
 use JsonMapper\JsonMapperInterface;
 use stdClass;
 use Throwable;
@@ -148,7 +149,7 @@ class ExplorerApi
             $txHash
         );
 
-        return $this->callApi($endpoint, RawTransactionMapper::class);
+        return $this->callApi($endpoint, RawTransaction::class);
     }
 
     /**
@@ -218,7 +219,7 @@ class ExplorerApi
             (string) $blockOrHash
         );
 
-        return $this->callApi($endpoint, RawBlockMapper::class);
+        return $this->callApi($endpoint, RawBlock::class);
     }
 
     /**
@@ -444,11 +445,17 @@ class ExplorerApi
      */
     public static function buildResponseMapper(): JsonMapperInterface
     {
-        $mapper = (new JsonMapperFactory())->bestFit();
+        $factoryRegistry = (new FactoryRegistry())
+            ->addFactory(stdClass::class, static fn ($value) => (object) $value);
 
-        $mapper->push(new CaseConversion(TextNotation::UNDERSCORE(), TextNotation::CAMEL_CASE()));
-
-        return $mapper;
+        return (new JsonMapperBuilder())
+            ->withPropertyMapper(new PropertyMapper($factoryRegistry))
+            ->withDocBlockAnnotationsMiddleware()
+            ->withTypedPropertiesMiddleware()
+            ->withNamespaceResolverMiddleware()
+            ->withObjectConstructorMiddleware($factoryRegistry)
+            ->withCaseConversionMiddleware(TextNotation::UNDERSCORE(), TextNotation::CAMEL_CASE())
+            ->build();
     }
 
     /**
@@ -512,6 +519,8 @@ class ExplorerApi
             ));
         }
 
+        self::assertRequiredResponseFieldsPresent($decoded->data ?? new stdClass(), $type, $endpoint, $responseBody);
+
         try {
             return self::buildResponseMapper()->mapToClassFromString(
                 (string) json_encode($decoded->data ?? new stdClass()),
@@ -532,5 +541,64 @@ class ExplorerApi
                 $throwable
             );
         }
+    }
+
+    /**
+     * Throws when the response omits a field the model declares as required.
+     *
+     * The JsonMapper constructor middleware silently FABRICATES defaults for
+     * missing constructor arguments (a missing `int` becomes `0`) — dangerous
+     * for data consumers may make payment decisions on. Model constructor
+     * parameters without a default value are therefore treated as REQUIRED and
+     * validated here, before hydration; parameters that monerod/xmrblocks
+     * legitimately omit must be declared nullable with a `= null` default (or
+     * `= []` for lists) and the evidence noted in their docblock.
+     *
+     * NB: validates the top-level response object only; nested objects are
+     * protected by the mapper's own null-into-non-nullable failure.
+     *
+     * @param object $data The decoded JSend `data` payload.
+     * @param class-string $type The model the payload will be hydrated to.
+     *
+     * @throws IncompleteExplorerResponseException
+     */
+    protected static function assertRequiredResponseFieldsPresent(
+        object $data,
+        string $type,
+        string $endpoint,
+        string $responseBody
+    ): void {
+        $constructor = (new \ReflectionClass($type))->getConstructor();
+        if (null === $constructor) {
+            return;
+        }
+
+        $presentPropertyNames = array_map(
+            // snake_case JSON keys are mapped to camelCase constructor parameters.
+            static fn (string $key): string => lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $key)))),
+            array_keys(get_object_vars($data))
+        );
+
+        $missingRequiredPropertyNames = [];
+        foreach ($constructor->getParameters() as $parameter) {
+            if (! $parameter->isOptional() && ! in_array($parameter->getName(), $presentPropertyNames, true)) {
+                $missingRequiredPropertyNames[] = $parameter->getName();
+            }
+        }
+
+        if (empty($missingRequiredPropertyNames)) {
+            return;
+        }
+
+        throw new IncompleteExplorerResponseException(
+            sprintf(
+                'api/%s response is missing required field(s) [%s] of %s (keys present: %s).',
+                strstr($endpoint, '?', true) ?: $endpoint,
+                implode(', ', $missingRequiredPropertyNames),
+                $type,
+                implode(', ', $presentPropertyNames)
+            ),
+            $responseBody
+        );
     }
 }

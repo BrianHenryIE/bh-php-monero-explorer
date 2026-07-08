@@ -2,7 +2,15 @@
 
 namespace BrianHenryIE\MoneroExplorer\Model;
 
-interface RawTransactionVoutTarget
+final readonly class RawTransactionVoutTarget
 {
-    public function getKey(): string;
+    public function __construct(
+        /**
+         * The one-time (stealth) public key this output is locked to.
+         *
+         * @var string
+         */
+        public string $key,
+    ) {
+    }
 }

@@ -2,9 +2,17 @@
 
 namespace BrianHenryIE\MoneroExplorer\Model;
 
-interface RawTransactionVout
+final readonly class RawTransactionVout
 {
-    public function getAmount(): int;
-
-    public function getTarget(): RawTransactionVoutTarget;
+    public function __construct(
+        /**
+         * Amount in atomic units; `0` for RingCT outputs, whose amounts are hidden.
+         *
+         * @var int
+         */
+        public int $amount,
+        /** @var RawTransactionVoutTarget */
+        public RawTransactionVoutTarget $target,
+    ) {
+    }
 }

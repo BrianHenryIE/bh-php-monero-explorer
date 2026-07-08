@@ -2,42 +2,39 @@
 
 namespace BrianHenryIE\MoneroExplorer\Model;
 
-use BrianHenryIE\MoneroExplorer\Model\JsonMapper\RawTransactionVinMapper;
-
-interface RawTransaction
+final readonly class RawTransaction
 {
-    /**
-     * @return int[]
-     */
-    public function getExtra(): array;
-
-    /**
-     * @return array
-     */
-    public function getRctSignatures(): array;
-
-    /**
-     * @return array
-     */
-    public function getRctsigPrunable(): array;
-
-    /**
-     * @return int
-     */
-    public function getUnlockTime(): int;
-
-    /**
-     * @return int
-     */
-    public function getVersion(): int;
-
-    /**
-     * @return RawTransactionVin[]
-     */
-    public function getVin(): array;
-
-    /**
-     * @return RawTransactionVout[]
-     */
-    public function getVout(): array;
+    public function __construct(
+        /**
+         * The tx_extra field bytes (tx public key, encrypted payment id, …).
+         *
+         * @var int[]
+         */
+        public array $extra,
+        /**
+         * RingCT signature data.
+         *
+         * @var array<string, mixed>
+         */
+        public array $rctSignatures,
+        /**
+         * Prunable part of the RingCT signature data (range proofs etc.).
+         *
+         * @var array<string, mixed>
+         */
+        public array $rctsigPrunable,
+        /**
+         * NB: a block HEIGHT when < 500000000, an epoch TIMESTAMP otherwise.
+         *
+         * @var int
+         */
+        public int $unlockTime,
+        /** @var int */
+        public int $version,
+        /** @var RawTransactionVin[] */
+        public array $vin,
+        /** @var RawTransactionVout[] */
+        public array $vout,
+    ) {
+    }
 }

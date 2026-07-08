@@ -2,7 +2,11 @@
 
 namespace BrianHenryIE\MoneroExplorer\Model;
 
-interface RawTransactionVin
+final readonly class RawTransactionVin
 {
-    public function getKey(): RawTransactionVinKey;
+    public function __construct(
+        /** @var RawTransactionVinKey */
+        public RawTransactionVinKey $key,
+    ) {
+    }
 }
