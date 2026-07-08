@@ -1,0 +1,128 @@
+# Deterministic Monero regtest + xmrblocks explorer stack for integration tests.
+#
+# One monerod in `--regtest` mode, one monero-wallet-rpc (used only by the seed
+# script to create the fixture transactions), and xmrblocks — the very server
+# this library is a client of — reading monerod's LMDB via a shared volume.
+#
+#   monero-daemon       RPC → 127.0.0.1:48181
+#   monero-wallet-rpc   RPC → 127.0.0.1:58183
+#   xmrblocks           API → 127.0.0.1:8081  (http://127.0.0.1:8081/api/networkinfo)
+#
+# Usage:
+#   make integration-up     # docker compose up -d --wait  (first run BUILDS xmrblocks, ~20 min)
+#   make integration-seed   # build the deterministic chain (tests/integration/)
+#   make integration-down   # docker compose down -v  (destroys ALL state)
+#
+# NETTYPE NOTE (the plan's Phase 1 spike): xmrblocks has no regtest flag, but a
+# regtest chain is mainnet-formatted ("fakechain"), so xmrblocks runs here in
+# default mainnet mode against the regtest LMDB. If it rejects the chain, the
+# documented fallback is a private testnet (monerod --testnet --fixed-difficulty 1,
+# xmrblocks -t, and mining via start_mining) — see
+# MODERNIZATION_AND_INTEGRATION_TEST_PLAN.md.
+#
+# The blockchain volume is shared READ-WRITE with xmrblocks: its emission
+# monitor writes `lmdb/emission_amount.txt` into the data dir (it never writes
+# to the LMDB itself). Only one explorer instance may use the data dir.
+#
+# To avoid the ~20 minute C++ build in CI, build once and push:
+#   docker compose build xmrblocks
+#   docker tag bh-php-monero-explorer-xmrblocks ghcr.io/brianhenryie/onion-monero-blockchain-explorer:${XMRBLOCKS_GIT_COMMIT}
+#   docker push ghcr.io/brianhenryie/onion-monero-blockchain-explorer:${XMRBLOCKS_GIT_COMMIT}
+# then replace `build:` with that `image:` below.
+#
+# @see MODERNIZATION_AND_INTEGRATION_TEST_PLAN.md
+# @see https://github.com/moneroexamples/onion-monero-blockchain-explorer
+
+services:
+
+  monero-daemon:
+    container_name: monero-daemon
+    image: ghcr.io/sethforprivacy/simple-monerod:${MONERO_VERSION}
+    restart: unless-stopped
+    volumes:
+      - monero-blockchain-data:/home/monero/.bitmonero
+    ports:
+      - "127.0.0.1:48181:18081"
+    command:
+      - "--regtest"
+      - "--fixed-difficulty"
+      - "1"
+      - "--offline"
+      - "--no-igd"
+      - "--rpc-bind-ip"
+      - "0.0.0.0"
+      - "--rpc-bind-port"
+      - "18081"
+      - "--confirm-external-bind"
+      - "--rpc-ssl"
+      - "disabled"
+      - "--non-interactive"
+      - "--log-level"
+      - "0"
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:18081/get_height || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+  # Used by the seed script to create the fixture wallets and transactions.
+  # NB: regtest uses MAINNET address format; no nettype flag here.
+  monero-wallet-rpc:
+    container_name: monero-wallet-rpc
+    image: ghcr.io/sethforprivacy/simple-monero-wallet-rpc:${MONERO_VERSION}
+    restart: unless-stopped
+    depends_on:
+      monero-daemon:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:58183:18083"
+    command:
+      - "--daemon-address"
+      - "monero-daemon:18081"
+      - "--daemon-ssl"
+      - "disabled"
+      - "--trusted-daemon"
+      - "--rpc-bind-ip"
+      - "0.0.0.0"
+      - "--rpc-bind-port"
+      - "18083"
+      - "--confirm-external-bind"
+      - "--disable-rpc-login"
+      # Regtest activates every hard fork at height 1; without this flag the
+      # wallet refuses to refresh.
+      - "--allow-mismatched-daemon-version"
+      - "--wallet-dir"
+      - "/home/monero"
+      - "--log-level"
+      - "0"
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail -X POST http://localhost:18083/json_rpc -d '{\"jsonrpc\":\"2.0\",\"id\":\"0\",\"method\":\"get_version\"}' -H 'Content-Type: application/json' || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+  xmrblocks:
+    container_name: xmrblocks
+    build:
+      context: https://github.com/moneroexamples/onion-monero-blockchain-explorer.git#${XMRBLOCKS_GIT_COMMIT}
+    image: bh-php-monero-explorer-xmrblocks
+    restart: unless-stopped
+    depends_on:
+      monero-daemon:
+        condition: service_healthy
+    volumes:
+      - monero-blockchain-data:/home/monero/.bitmonero
+    ports:
+      - "127.0.0.1:8081:8081"
+    command: ["./xmrblocks --daemon-url=monero-daemon:18081 --enable-json-api --enable-emission-monitor --enable-pusher --enable-autorefresh-option"]
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:8081/api/networkinfo || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
+
+volumes:
+  monero-blockchain-data:
