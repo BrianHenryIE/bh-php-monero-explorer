@@ -65,7 +65,7 @@ class ExplorerToolsUnitTest extends TestCase
 
         $sut = new ExplorerTools($requestFactory, $client);
 
-        $result = $sut->getMempool()->getTxs();
+        $result = $sut->getMempool()->txs;
 
         $this->assertCount(73, $result);
     }

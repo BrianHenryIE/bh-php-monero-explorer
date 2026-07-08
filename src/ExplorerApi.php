@@ -29,15 +29,10 @@ namespace BrianHenryIE\MoneroExplorer;
 use BrianHenryIE\MoneroExplorer\Model\Block;
 use BrianHenryIE\MoneroExplorer\Model\DetailedTransaction;
 use BrianHenryIE\MoneroExplorer\Model\Emission;
-use BrianHenryIE\MoneroExplorer\Model\JsonMapper\BlockMapper;
-use BrianHenryIE\MoneroExplorer\Model\JsonMapper\DetailedTransactionMapper;
 use BrianHenryIE\MoneroExplorer\Model\JsonMapper\EmissionMapper;
-use BrianHenryIE\MoneroExplorer\Model\JsonMapper\MempoolMapper;
 use BrianHenryIE\MoneroExplorer\Model\JsonMapper\NetworkInfoMapper;
 use BrianHenryIE\MoneroExplorer\Model\JsonMapper\OutputsBlocksMapper;
 use BrianHenryIE\MoneroExplorer\Model\JsonMapper\OutputsMapper;
-use BrianHenryIE\MoneroExplorer\Model\JsonMapper\TransactionMapper;
-use BrianHenryIE\MoneroExplorer\Model\JsonMapper\TransactionsMapper;
 use BrianHenryIE\MoneroExplorer\Model\JsonMapper\VersionMapper;
 use BrianHenryIE\MoneroExplorer\Model\Mempool;
 use BrianHenryIE\MoneroExplorer\Model\NetworkInfo;
@@ -45,7 +40,6 @@ use BrianHenryIE\MoneroExplorer\Model\Outputs;
 use BrianHenryIE\MoneroExplorer\Model\OutputsBlocks;
 use BrianHenryIE\MoneroExplorer\Model\RawBlock;
 use BrianHenryIE\MoneroExplorer\Model\RawTransaction;
-use BrianHenryIE\MoneroExplorer\Model\Search;
 use BrianHenryIE\MoneroExplorer\Model\Transaction;
 use BrianHenryIE\MoneroExplorer\Model\Transactions;
 use BrianHenryIE\MoneroExplorer\Model\Version;
@@ -128,7 +122,7 @@ class ExplorerApi
             $txHash
         );
 
-        return $this->callApi($endpoint, TransactionMapper::class);
+        return $this->callApi($endpoint, Transaction::class);
     }
 
     /**
@@ -170,7 +164,7 @@ class ExplorerApi
             $txHash
         );
 
-        return $this->callApi($endpoint, DetailedTransactionMapper::class);
+        return $this->callApi($endpoint, DetailedTransaction::class);
     }
 
     /**
@@ -195,7 +189,7 @@ class ExplorerApi
             (string) $blockOrHash
         );
 
-        return $this->callApi($endpoint, BlockMapper::class);
+        return $this->callApi($endpoint, Block::class);
     }
 
     /**
@@ -241,7 +235,7 @@ class ExplorerApi
             $limit
         );
 
-        return $this->callApi($endpoint, TransactionsMapper::class);
+        return $this->callApi($endpoint, Transactions::class);
     }
 
     /**
@@ -263,23 +257,28 @@ class ExplorerApi
             $limit
         );
 
-        return $this->callApi($endpoint, MempoolMapper::class);
+        return $this->callApi($endpoint, Mempool::class);
     }
 
     /**
      * Search for a transaction by hash or a block by hash or block number.
      *
-     * Search returns one of Transaction or Block with an additional field "title".
+     * Search returns one of Transaction or Block with an additional field `title`
+     * (`"transaction"` or `"block"`) identifying which; the return type here is the
+     * corresponding union. E.g. `timestamp_utc`: "2022-07-27 00:00:17".
      *
      * `api/search/<query>`
      * `curl https://xmrchain.net/api/search/12345 | jq`
-     * @see Search
+     * @see Block::$title
+     * @see Transaction::$title
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L734-L740
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5191-L5239
      *
      * @param string|int $value Transaction hash | block hash | block number.
+     *
+     * @throws UnexpectedValueException When the search result is neither a block nor a transaction.
      */
-    public function getSearch($value): Search
+    public function getSearch($value): Block|Transaction
     {
         if (! (is_int($value) || is_string($value))) {
             throw new \InvalidArgumentException();
@@ -292,21 +291,15 @@ class ExplorerApi
 
         $searchResult = $this->callApi($endpoint, \stdClass::class);
 
-        $mapper = (new JsonMapperFactory())->bestFit();
+        $type = match ($searchResult->title ?? null) {
+            'transaction' => Transaction::class,
+            'block' => Block::class,
+            default => throw new UnexpectedValueException(
+                sprintf('Unexpected search result title `%s`.', $searchResult->title ?? '(none)')
+            ),
+        };
 
-        switch ($searchResult->title) {
-            case 'transaction':
-                $type = TransactionMapper::class;
-                break;
-            case 'block':
-                $type = BlockMapper::class;
-                break;
-            default:
-                throw new UnexpectedValueException();
-        }
-
-        return $mapper->mapToClass($searchResult, $type);
-        return $result;
+        return self::buildResponseMapper()->mapToClass($searchResult, $type);
     }
 
     /**

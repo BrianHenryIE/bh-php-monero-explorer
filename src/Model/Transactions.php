@@ -2,18 +2,27 @@
 
 namespace BrianHenryIE\MoneroExplorer\Model;
 
-interface Transactions
+final readonly class Transactions
 {
-    /**
-     * @return TransactionsBlock[]
-     */
-    public function getBlocks(): array;
-
-    public function getCurrentHeight(): int;
-
-    public function getLimit(): int;
-
-    public function getPage(): int;
-
-    public function getTotalPageNo(): int;
+    public function __construct(
+        /** @var TransactionsBlock[] */
+        public array $blocks,
+        /**
+         * The chain height at the time of the query.
+         *
+         * @var int
+         */
+        public int $currentHeight,
+        /**
+         * Transactions per page, as requested.
+         *
+         * @var int
+         */
+        public int $limit,
+        /** @var int */
+        public int $page,
+        /** @var int */
+        public int $totalPageNo,
+    ) {
+    }
 }

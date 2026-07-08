@@ -52,9 +52,9 @@ class ExplorerTools extends ExplorerApi
     ): bool {
         $block = $this->getBlock($blockHeight);
 
-        foreach ($block->getTxs() as $transaction) {
+        foreach ($block->txs as $transaction) {
             $outputs = $this->getOutputs(
-                $transaction->getTxHash(),
+                $transaction->txHash,
                 $paymentAddress,
                 $viewkey,
                 false
