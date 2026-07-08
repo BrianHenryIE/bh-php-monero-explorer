@@ -56,7 +56,10 @@ use JsonException;
 use JsonMapper\Enums\TextNotation;
 use JsonMapper\JsonMapperFactory;
 use JsonMapper\Middleware\CaseConversion;
-use miWebb\JSend\JSend;
+use BrianHenryIE\MoneroExplorer\Exception\IncompleteExplorerResponseException;
+use JsonMapper\JsonMapperInterface;
+use stdClass;
+use Throwable;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -430,10 +433,33 @@ class ExplorerApi
     }
 
     /**
-     * Queries the API via PSR client, parses the JSend and casts the value to an object.
+     * Builds the JsonMapper used to hydrate every API response.
      *
-     * API responses are JSON encoded JSend compliant messages. The `data` key is returned as an associative array,
-     * or an exception thrown.
+     * This is the ONE construction site for response mapping configuration
+     * (snake_case JSON keys → camelCase PHP properties). Value-object factories
+     * (amounts, dates, enums) will be registered here.
+     *
+     * Public so fixture-based tests hydrate through the exact pipeline
+     * production uses.
+     */
+    public static function buildResponseMapper(): JsonMapperInterface
+    {
+        $mapper = (new JsonMapperFactory())->bestFit();
+
+        $mapper->push(new CaseConversion(TextNotation::UNDERSCORE(), TextNotation::CAMEL_CASE()));
+
+        return $mapper;
+    }
+
+    /**
+     * Queries the API via PSR client, parses the JSend envelope and casts the `data` value to an object.
+     *
+     * API responses are JSON encoded JSend compliant messages: `{"status": "success", "data": {...}}`,
+     * with `status` of `fail`/`error` (and a `message`) when the request could not be served.
+     *
+     * The body is decoded ONCE, with JSON_BIGINT_AS_STRING: Monero atomic-unit values are unsigned
+     * 64-bit integers which can exceed PHP_INT_MAX (mainnet's cumulative emission already does), and
+     * a plain `json_decode()` silently corrupts them to lossy floats.
      *
      * @see https://github.com/omniti-labs/jsend
      *
@@ -443,9 +469,10 @@ class ExplorerApi
      * @return T
      *
      * @throws ClientExceptionInterface PSR HTTP client exception.
-     * @throws JsonException
+     * @throws JsonException When the response body is not valid JSON.
      * @throws UnexpectedValueException If the HTTP server returns a format not compliant with JSend.
-     * @throws Exception
+     * @throws IncompleteExplorerResponseException When the response cannot be hydrated to $type.
+     * @throws Exception When the API reports fail/error status.
      */
     protected function callApi(string $endpoint, string $type)
     {
@@ -454,31 +481,56 @@ class ExplorerApi
         }
 
         $request = $this->requestFactory->createRequest(
-			'GET',
-			"{$this->url}/api/$endpoint"
+            'GET',
+            "{$this->url}/api/$endpoint"
         );
 
         $response = $this->client->sendRequest($request);
 
-		if( 2 !== (int) ($response->getStatusCode() / 100) ) {
-			// 404: the JSON API is not enabled.
-			throw new Exception('error.');
-		}
-
-        $jsend = JSend::decode($response->getBody());
-
-        if ($jsend->getStatus() !== JSend::SUCCESS) {
+        if (2 !== intdiv($response->getStatusCode(), 100)) {
+            // E.g. 404 when the JSON API is not enabled (`xmrblocks --enable-json-api`).
             throw new Exception(sprintf(
-                'API: %s %s',
-                $jsend->getStatus(),
-                $jsend->getMessage() ? ": {$jsend->getMessage()}" : ''
+                'HTTP %d querying api/%s. Is the explorer running with `--enable-json-api`?',
+                $response->getStatusCode(),
+                strstr($endpoint, '?', true) ?: $endpoint
             ));
         }
 
-        $mapper = (new JsonMapperFactory())->bestFit();
+        $responseBody = (string) $response->getBody();
 
-        $mapper->push(new CaseConversion(TextNotation::UNDERSCORE(), TextNotation::CAMEL_CASE()));
+        $decoded = json_decode($responseBody, false, 512, JSON_BIGINT_AS_STRING | JSON_THROW_ON_ERROR);
 
-        return $mapper->mapToClassFromString(json_encode($jsend->getData()), $type);
+        if (! is_object($decoded) || ! isset($decoded->status)) {
+            throw new UnexpectedValueException("api/{$endpoint} response is not a JSend envelope.");
+        }
+
+        if ($decoded->status !== 'success') {
+            throw new Exception(sprintf(
+                'API: %s%s',
+                $decoded->status,
+                isset($decoded->message) ? ": {$decoded->message}" : ''
+            ));
+        }
+
+        try {
+            return self::buildResponseMapper()->mapToClassFromString(
+                (string) json_encode($decoded->data ?? new stdClass()),
+                $type
+            );
+        } catch (Throwable $throwable) {
+            // The raw body is attached to the exception object, NOT the message:
+            // outputs/outputsblocks responses echo the caller's view key.
+            throw new IncompleteExplorerResponseException(
+                sprintf(
+                    'api/%s response could not be hydrated to %s (keys present: %s): %s',
+                    strstr($endpoint, '?', true) ?: $endpoint,
+                    $type,
+                    implode(', ', array_keys(get_object_vars($decoded->data ?? new stdClass()))),
+                    $throwable->getMessage()
+                ),
+                $responseBody,
+                $throwable
+            );
+        }
     }
 }

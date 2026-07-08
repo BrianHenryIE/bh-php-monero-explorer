@@ -40,14 +40,10 @@ class MappersTest extends \PHPUnit\Framework\TestCase
         try {
             $json = file_get_contents(__DIR__ . '/../../../_data/model/' . $filename);
 
-            $mapper = (new JsonMapperFactory())->bestFit();
+            // The exact mapper configuration production uses.
+            $mapper = \BrianHenryIE\MoneroExplorer\ExplorerApi::buildResponseMapper();
 
-            $mapper->push(new \JsonMapper\Middleware\CaseConversion(
-                \JsonMapper\Enums\TextNotation::UNDERSCORE(),
-                \JsonMapper\Enums\TextNotation::CAMEL_CASE()
-            ));
-
-            $decoded_json = json_decode($json);
+            $decoded_json = json_decode($json, false, 512, JSON_BIGINT_AS_STRING | JSON_THROW_ON_ERROR);
             if (is_array($decoded_json)) {
                 $result = $mapper->mapToClassArray($decoded_json, $type);
             } else {

@@ -36,7 +36,6 @@
     "php": ">=8.4",
     "ext-json": "*",
     "json-mapper/json-mapper": "^2.25",
-    "miwebb/jsend": "^3.0",
     "psr/http-client-implementation": "*",
     "psr/http-factory-implementation": "*"
   },
