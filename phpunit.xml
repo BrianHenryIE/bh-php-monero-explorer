@@ -2,9 +2,11 @@
 <!--
   Test suites:
    - unit:     no network access; runs by default (`composer test`).
-   - contract: LIVE calls to xmrchain.net (requires `.env.secret`); excluded from
-               CI. To be replaced by deterministic Docker-backed integration
-               suites — see MODERNIZATION_AND_INTEGRATION_TEST_PLAN.md.
+   - integration:          read-only tests against the seeded Docker xmrblocks stack.
+   - integration-mutating: tests that mutate chain state; run LAST.
+
+  Integration suites require:  make integration-up && make integration-seed
+  Then:                        composer test-integration
 -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/12.0/phpunit.xsd" backupGlobals="false" colors="true" bootstrap="vendor/autoload.php" defaultTestSuite="unit" beStrictAboutTestsThatDoNotTestAnything="true" beStrictAboutOutputDuringTests="true" beStrictAboutChangesToGlobalState="true">
   <coverage/>
@@ -12,8 +14,11 @@
     <testsuite name="unit">
       <directory>tests/unit</directory>
     </testsuite>
-    <testsuite name="contract">
-      <directory>tests/contract</directory>
+    <testsuite name="integration">
+      <directory>tests/integration</directory>
+    </testsuite>
+    <testsuite name="integration-mutating">
+      <directory>tests/integration-mutating</directory>
     </testsuite>
   </testsuites>
   <source>

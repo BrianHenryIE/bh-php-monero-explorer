@@ -32,6 +32,11 @@
       "BrianHenryIE\\MoneroExplorer\\": "src"
     }
   },
+  "autoload-dev": {
+    "classmap": [
+      "tests/"
+    ]
+  },
   "require": {
     "php": ">=8.4",
     "ext-json": "*",
@@ -60,6 +65,10 @@
   "scripts": {
     "test": [
       "phpunit"
+    ],
+    "test-integration": [
+      "phpunit --testsuite integration",
+      "phpunit --testsuite integration-mutating"
     ],
     "test-coverage": [
       "phpunit --coverage-text --coverage-clover tests/reports/clover.xml --coverage-html tests/reports/html"

@@ -1,0 +1,59 @@
+name: Integration Tests
+
+# Boots the Monero regtest + xmrblocks explorer stack (docker-compose.yml),
+# seeds the deterministic chain, and runs the integration suites.
+#
+# NB: the first run COMPILES xmrblocks from source (~20 minutes). To make CI
+# fast, build once locally, push the image to GHCR, and switch the compose
+# service from `build:` to `image:` — instructions in docker-compose.yml.
+#
+# @see MODERNIZATION_AND_INTEGRATION_TEST_PLAN.md
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  integration-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Git checkout
+        uses: actions/checkout@v4
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+
+      - name: Install composer dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Start Monero regtest + xmrblocks containers
+        run: docker compose up -d --wait --quiet-pull
+        timeout-minutes: 40
+
+      - name: Seed the deterministic regtest chain
+        run: php tests/integration/seed-monero-explorer-chain.php
+
+      - name: Run integration test suite (read-only)
+        run: vendor/bin/phpunit --testsuite integration
+        env:
+          MONERO_INTEGRATION_TESTS: '1'
+
+      - name: Run integration test suite (mutating state)
+        run: vendor/bin/phpunit --testsuite integration-mutating
+        env:
+          MONERO_INTEGRATION_TESTS: '1'
+
+      - name: Show container logs on failure
+        if: failure()
+        run: docker compose logs
+
+      - name: Tear down containers
+        if: always()
+        run: docker compose down -v
