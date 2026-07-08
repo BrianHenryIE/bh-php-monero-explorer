@@ -16,16 +16,16 @@ class MappersTest extends \PHPUnit\Framework\TestCase
         return [
             'block.json'                => [ 'block.json', \BrianHenryIE\MoneroExplorer\Model\Block::class ],
             'detailed_transaction.json' => [ 'detailed_transaction.json', \BrianHenryIE\MoneroExplorer\Model\DetailedTransaction::class ],
-            'emission.json'             => [ 'emission.json', EmissionMapper::class ],
+            'emission.json'             => [ 'emission.json', \BrianHenryIE\MoneroExplorer\Model\Emission::class ],
             'mempool.json'              => [ 'mempool.json', \BrianHenryIE\MoneroExplorer\Model\Mempool::class ],
-            'outputs.json'              => [ 'outputs.json', OutputsMapper::class ],
-            'network_info.json'         => [ 'network_info.json', NetworkInfoMapper::class ],
-//            'outputs_blocks.json'       => [ 'outputs_blocks.json', OutputsBlocksMapper::class ],
+            'outputs.json'              => [ 'outputs.json', \BrianHenryIE\MoneroExplorer\Model\Outputs::class ],
+            'network_info.json'         => [ 'network_info.json', \BrianHenryIE\MoneroExplorer\Model\NetworkInfo::class ],
+            'outputs_blocks.json'       => [ 'outputs_blocks.json', \BrianHenryIE\MoneroExplorer\Model\OutputsBlocks::class ],
             'raw_block.json'            => [ 'raw_block.json', \BrianHenryIE\MoneroExplorer\Model\RawBlock::class ],
             'raw_transaction.json'      => [ 'raw_transaction.json', \BrianHenryIE\MoneroExplorer\Model\RawTransaction::class ],
             'transaction.json'          => [ 'transaction.json', \BrianHenryIE\MoneroExplorer\Model\Transaction::class ],
             'transactions.json'         => [ 'transactions.json', \BrianHenryIE\MoneroExplorer\Model\Transactions::class ],
-            'version.json'              => [ 'version.json', VersionMapper::class ],
+            'version.json'              => [ 'version.json', \BrianHenryIE\MoneroExplorer\Model\Version::class ],
         ];
     }
 

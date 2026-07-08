@@ -42,11 +42,11 @@ class ExplorerToolsContractTest extends TestCase
 
         $valid = array();
 
-        $result = $sut->getBlock($block_height)->getTxs();
+        $result = $sut->getBlock($block_height)->txs;
 
         $tx_hashes = array_map(
             function (BlockTx $transaction) {
-                return $transaction->getTxHash();
+                return $transaction->txHash;
             },
             $result
         );
@@ -54,10 +54,10 @@ class ExplorerToolsContractTest extends TestCase
         foreach ($tx_hashes as $tx_hash) {
             $outputsData = $sut->getOutputs($tx_hash, $received_address, $secret_viewkey);
 
-            $outputs = $outputsData->getOutputs();
+            $outputs = $outputsData->outputs;
             foreach ($outputs as $output) {
-                if ($output->isMatch()) {
-                    $valid[ $tx_hash ] = $output->getAmount() / 1000000000000;
+                if ($output->match) {
+                    $valid[ $tx_hash ] = $output->amount / 1000000000000;
                 }
             }
         }

@@ -5,6 +5,9 @@ parameters:
         - tests
     excludePaths:
         - tests/reports
+        # Live xmrchain.net legacy tests, excluded from CI and pending replacement
+        # by Docker-backed integration suites (MODERNIZATION_AND_INTEGRATION_TEST_PLAN.md).
+        - tests/contract
     ignoreErrors:
         # There are many Mockery errors that maybe somebody could help with.
         - '#Mockery#'

@@ -29,11 +29,6 @@ namespace BrianHenryIE\MoneroExplorer;
 use BrianHenryIE\MoneroExplorer\Model\Block;
 use BrianHenryIE\MoneroExplorer\Model\DetailedTransaction;
 use BrianHenryIE\MoneroExplorer\Model\Emission;
-use BrianHenryIE\MoneroExplorer\Model\JsonMapper\EmissionMapper;
-use BrianHenryIE\MoneroExplorer\Model\JsonMapper\NetworkInfoMapper;
-use BrianHenryIE\MoneroExplorer\Model\JsonMapper\OutputsBlocksMapper;
-use BrianHenryIE\MoneroExplorer\Model\JsonMapper\OutputsMapper;
-use BrianHenryIE\MoneroExplorer\Model\JsonMapper\VersionMapper;
 use BrianHenryIE\MoneroExplorer\Model\Mempool;
 use BrianHenryIE\MoneroExplorer\Model\NetworkInfo;
 use BrianHenryIE\MoneroExplorer\Model\Outputs;
@@ -46,8 +41,6 @@ use BrianHenryIE\MoneroExplorer\Model\Version;
 use Exception;
 use JsonException;
 use JsonMapper\Enums\TextNotation;
-use JsonMapper\JsonMapperFactory;
-use JsonMapper\Middleware\CaseConversion;
 use BrianHenryIE\MoneroExplorer\Exception\IncompleteExplorerResponseException;
 use JsonMapper\Handler\FactoryRegistry;
 use JsonMapper\Handler\PropertyMapper;
@@ -313,7 +306,7 @@ class ExplorerApi
      */
     public function getNetworkInfo(): NetworkInfo
     {
-        return $this->callApi('networkinfo', NetworkInfoMapper::class);
+        return $this->callApi('networkinfo', NetworkInfo::class);
     }
 
     /**
@@ -329,7 +322,7 @@ class ExplorerApi
      */
     public function getEmission(): Emission
     {
-        return $this->callApi('emission', EmissionMapper::class);
+        return $this->callApi('emission', Emission::class);
     }
 
     /**
@@ -357,7 +350,7 @@ class ExplorerApi
             (int) $txProve
         );
 
-        return $this->callApi($endpoint, OutputsMapper::class);
+        return $this->callApi($endpoint, Outputs::class);
     }
 
     /**
@@ -409,7 +402,7 @@ class ExplorerApi
             (int) $mempool
         );
 
-        return $this->callApi($endpoint, OutputsBlocksMapper::class);
+        return $this->callApi($endpoint, OutputsBlocks::class);
     }
 
     /**
@@ -423,7 +416,7 @@ class ExplorerApi
      */
     public function getVersion(): Version
     {
-        return $this->callApi('version', VersionMapper::class);
+        return $this->callApi('version', Version::class);
     }
 
     /**

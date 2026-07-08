@@ -10,22 +10,35 @@
 
 namespace BrianHenryIE\MoneroExplorer\Model;
 
-interface OutputsOutput
+final readonly class OutputsOutput
 {
-    /**
-     * @return int
-     */
-    public function getAmount(): int;
-
-    public function isMatch(): bool;
-
-    /**
-     * @return int
-     */
-    public function getOutputIdx(): int;
-
-    /**
-     * @return string
-     */
-    public function getOutputPubkey(): string;
+    public function __construct(
+        /**
+         * Amount in atomic units this output pays to the queried address;
+         * decoded with the supplied view key.
+         *
+         * @var int
+         */
+        public int $amount,
+        /**
+         * True when this output belongs to the queried address (per the view
+         * key), false for the transaction's other outputs.
+         *
+         * @var bool
+         */
+        public bool $match,
+        /**
+         * Index of the output within its transaction.
+         *
+         * @var int
+         */
+        public int $outputIdx,
+        /**
+         * The one-time (stealth) public key of the output.
+         *
+         * @var string
+         */
+        public string $outputPubkey,
+    ) {
+    }
 }

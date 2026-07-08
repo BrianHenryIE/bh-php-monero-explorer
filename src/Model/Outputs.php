@@ -13,40 +13,40 @@ use BrianHenryIE\MoneroExplorer\ExplorerApi;
 /**
  * @see ExplorerApi::getOutputs()
  */
-interface Outputs
+final readonly class Outputs
 {
-    /**
-     * @return string
-     */
-    public function getAddress(): string;
-
-    /**
-     * @return OutputsOutput[]
-     */
-    public function getOutputs(): array;
-
-    /**
-     * @return int
-     */
-    public function getTxConfirmations(): int;
-
-    /**
-     * @return string
-     */
-    public function getTxHash(): string;
-
-    /**
-     * @return bool
-     */
-    public function isTxProve(): bool;
-
-    /**
-     * @return int
-     */
-    public function getTxTimestamp(): int;
-
-    /**
-     * @return string
-     */
-    public function getViewkey(): string;
+    public function __construct(
+        /**
+         * The queried address (as hex-decoded public spend/view key pair).
+         *
+         * @var string
+         */
+        public string $address,
+        /** @var OutputsOutput[] */
+        public array $outputs,
+        /** @var int */
+        public int $txConfirmations,
+        /** @var string */
+        public string $txHash,
+        /**
+         * True when proving a SENT payment (the supplied key was a tx private
+         * key rather than the recipient's view key).
+         *
+         * @var bool
+         */
+        public bool $txProve,
+        /**
+         * Epoch seconds of the transaction's block.
+         *
+         * @var int
+         */
+        public int $txTimestamp,
+        /**
+         * The view key (or tx private key when `txProve`) echoed back, as hex.
+         *
+         * @var string
+         */
+        public string $viewkey,
+    ) {
+    }
 }

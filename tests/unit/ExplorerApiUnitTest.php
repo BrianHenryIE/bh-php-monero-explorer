@@ -3,7 +3,7 @@
 namespace BrianHenryIE\MoneroExplorer;
 
 use BrianHenryIE\MoneroExplorer\Exception\IncompleteExplorerResponseException;
-use BrianHenryIE\MoneroExplorer\Model\JsonMapper\VersionMapper;
+use BrianHenryIE\MoneroExplorer\Model\Version;
 use Exception;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -92,10 +92,10 @@ class ExplorerApiUnitTest extends TestCase
             self::fail('Expected IncompleteExplorerResponseException');
         } catch (IncompleteExplorerResponseException $exception) {
             self::assertStringContainsString('api/version', $exception->getMessage());
-            self::assertStringContainsString(VersionMapper::class, $exception->getMessage());
+            self::assertStringContainsString(Version::class, $exception->getMessage());
             self::assertSame($responseBody, $exception->getResponseBody());
             // Key NAMES appear in the message; VALUES must not (view keys are echoed in some responses).
-            self::assertStringContainsString('secret_marker', $exception->getMessage());
+            self::assertStringContainsString('secretMarker', $exception->getMessage());
             self::assertStringNotContainsString('do-not-log', $exception->getMessage());
         }
     }
