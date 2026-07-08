@@ -210,19 +210,28 @@ class ExplorerApiContractTest extends TestCase
      */
     public function testGetOutputsBlocks(): void
     {
-        $this->markTestIncomplete('OutputsBlocks object is not yet implemented fully');
+//        $this->markTestIncomplete('OutputsBlocks object is not yet implemented fully');
 
         $primary_address = $_ENV['SAMPLE_PRIMARY_ADDRESS'];
         $public_viewkey = $_ENV['SAMPLE_PUBLIC_VIEW_KEY'];
 
-        $requestFactory = new HttpFactory();
+
+	    $address = '57AaCDLE3GeBsgrK513QiUFePcBbSp5QYhn2Q2S1P9DsceUmeVkvBMJBQDFTfS9f21LfhXJSWNGN16mvXQmffGsA7KCVBxh';
+	    $secretViewKey = '64630bfeffdbbcf73ebe58d05a259e1731388def9104f6cbbe69ff8f2c3cd500';
+
+
+
+	    $requestFactory = new HttpFactory();
         $client = new Client();
 
         $sut = new ExplorerApi($requestFactory, $client);
+//        $sut = new ExplorerApi($requestFactory, $client, ExplorerTools::STAGENET_URL);
 
-        $sut->getOutputsBlocks($primary_address, $public_viewkey);
+//        $sut->getOutputsBlocks($primary_address, $public_viewkey);
+//        $sut->getOutputsBlocks($address, $secretViewKey);
+        $sut->getOutputsBlocks($address, $secretViewKey, 5, true);
 
-        self::expectNotToPerformAssertions();
+
     }
 
     public function testGetVersion(): void

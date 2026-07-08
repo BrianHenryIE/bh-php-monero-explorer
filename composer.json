@@ -16,6 +16,9 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "config": {
+    "platform": {
+      "php": "8.4"
+    },
     "process-timeout": 0,
     "sort-packages": true,
     "allow-plugins": {
@@ -30,13 +33,15 @@
     }
   },
   "require": {
+    "php": ">=8.4",
     "ext-json": "*",
-    "json-mapper/json-mapper": "*",
+    "json-mapper/json-mapper": "^2.25",
     "miwebb/jsend": "^3.0",
     "psr/http-client-implementation": "*",
     "psr/http-factory-implementation": "*"
   },
   "require-dev": {
+    "brainmaestro/composer-git-hooks": "^2.8",
     "cweagans/composer-patches": "*",
     "dealerdirect/phpcodesniffer-composer-installer": "*",
     "guzzlehttp/guzzle": "^7.4",
@@ -44,6 +49,8 @@
     "mockery/mockery": "^1.5",
     "phpstan/extension-installer": "*",
     "phpunit/phpcov": "*",
+    "phpunit/phpunit": "^12",
+    "psr-mock/http": "^1.0",
     "squizlabs/php_codesniffer": "*"
   },
   "patches": {
@@ -61,7 +68,14 @@
     "lint": [
       "phpcbf || true",
       "phpcs || true",
-      "phpstan"
+      "phpstan analyse --memory-limit 1G"
     ]
+  },
+  "extra": {
+    "hooks": {
+      "pre-commit": [
+        "updated_files=$( git status | grep 'modified:\\s.*.php$' | cut -c14- | awk '{ printf(\"%s \", $0) }' ); phpcbf $(echo $updated_files); vendor/bin/phpcbf $(echo $updated_files);"
+      ]
+    }
   }
 }

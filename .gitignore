@@ -1,7 +1,8 @@
-*.secret*
+/.env.secret
 .idea
 vendor
 scratch
 .phpunit.result.cache
 .DS_Store
 tests/reports
+monero-wallet-cli.log

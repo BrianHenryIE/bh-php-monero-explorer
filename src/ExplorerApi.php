@@ -383,7 +383,7 @@ class ExplorerApi
         int $limit = 5,
         bool $mempool = false
     ): OutputsBlocks {
-        trigger_error('Full `outputsblocks` JSON parsing not yet implemented', E_USER_WARNING);
+//        trigger_error('Full `outputsblocks` JSON parsing not yet implemented', E_USER_WARNING);
 
         $sanitized_limit = max(1, min($limit, 5));
 
@@ -453,9 +453,17 @@ class ExplorerApi
             throw new UnexpectedValueException("{$type} class does not exist");
         }
 
-        $request = $this->requestFactory->createRequest('GET', "{$this->url}/api/$endpoint");
+        $request = $this->requestFactory->createRequest(
+			'GET',
+			"{$this->url}/api/$endpoint"
+        );
 
         $response = $this->client->sendRequest($request);
+
+		if( 2 !== (int) ($response->getStatusCode() / 100) ) {
+			// 404: the JSON API is not enabled.
+			throw new Exception('error.');
+		}
 
         $jsend = JSend::decode($response->getBody());
 
@@ -471,6 +479,6 @@ class ExplorerApi
 
         $mapper->push(new CaseConversion(TextNotation::UNDERSCORE(), TextNotation::CAMEL_CASE()));
 
-        return $mapper->mapToClass(json_decode(json_encode($jsend->getData())), $type);
+        return $mapper->mapToClassFromString(json_encode($jsend->getData()), $type);
     }
 }

@@ -15,14 +15,13 @@ declare(strict_types=1);
 
 namespace BrianHenryIE\MoneroExplorer;
 
-use Exception;
-
 /**
  * TODO: It would be ideal if this implemented a common interface that Monero-RPC implemented.
  */
 class ExplorerTools extends ExplorerApi
 {
     public const MAINNET_URL = 'https://xmrchain.net';
+    public const STAGENET_URL = 'https://stagenet.xmrchain.net';
     public const TESTNET_URL = 'https://testnet.xmrchain.com';
 
     /**
@@ -45,8 +44,12 @@ class ExplorerTools extends ExplorerApi
      *
      * @return bool
      */
-    public function isBlockContainsPayment(int $blockHeight, string $paymentAddress, string $viewkey, bool $txProve = false): bool
-    {
+    public function isBlockContainsPayment(
+        int $blockHeight,
+        string $paymentAddress,
+        string $viewkey,
+        bool $txProve = false
+    ): bool {
         $block = $this->getBlock($blockHeight);
 
         foreach ($block->getTxs() as $transaction) {
@@ -79,10 +82,9 @@ class ExplorerTools extends ExplorerApi
      */
     public function verifyPaymentInMempool(string $payment_id, string $payment_address, string $viewkey): array
     {
-        throw new Exception('Not yet implemented');
 
         $txs     = array();
-        $outputs = $this->getOutputsBlocks($payment_address, $viewkey)->getOutputs();
+        $outputs = $this->getOutputsBlocks($payment_address, $viewkey, 5, true)->getOutputs();
         foreach ($outputs as $payment) {
             // TODO OutputsBlocksOutput not yet implemented.
             if ($payment_id === $payment->getPaymentId()) {

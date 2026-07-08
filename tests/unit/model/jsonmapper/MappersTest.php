@@ -3,6 +3,7 @@
 namespace BrianHenryIE\MoneroExplorer\Model\JsonMapper;
 
 use JsonMapper\JsonMapperFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class MappersTest extends \PHPUnit\Framework\TestCase
 {
@@ -10,7 +11,7 @@ class MappersTest extends \PHPUnit\Framework\TestCase
      *
      * @return array<string, string[]>
      */
-    public function data(): array
+    public static function data(): array
     {
         return [
             'block.json'                => [ 'block.json', BlockMapper::class ],
@@ -29,12 +30,11 @@ class MappersTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider data
-     *
      * @template T of object
      * @param string $filename The test .json file.
      * @param class-string<T> $type The object type to cast/deserialize the response to.
      */
+    #[DataProvider('data')]
     public function testMappers($filename, $type): void
     {
         try {

@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        php: [ '8.0' ]
+        php: [ '8.4' ]
 
     permissions:
       # Give the default GITHUB_TOKEN write permission to commit and push the
@@ -60,4 +60,3 @@ jobs:
         with:
           file_pattern: ".github/phpstan.svg"
           commit_message: "🤖 PhpStan"
-

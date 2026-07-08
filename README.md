@@ -1,4 +1,4 @@
-[![PHP 7.4](https://img.shields.io/badge/PHP-7.4-8892BF.svg)]() [![PHPCS PSR-12](https://img.shields.io/badge/PHPCS-PSR–12-226146.svg)](https://www.php-fig.org/psr/psr-12/) [![PHPUnit ](.github/coverage.svg)](https://brianhenryie.github.io/bh-php-monero-explorer/) [![PHPStan ](.github/phpstan.svg)](https://phpstan.org/)
+[![PHP 8.4](https://img.shields.io/badge/PHP-8.4-8892BF.svg)]() [![PHPCS PSR-12](https://img.shields.io/badge/PHPCS-PSR–12-226146.svg)](https://www.php-fig.org/psr/psr-12/) [![PHPUnit ](.github/coverage.svg)](https://brianhenryie.github.io/bh-php-monero-explorer/) [![PHPStan ](.github/phpstan.svg)](https://phpstan.org/)
 
 # Monero Explorer PHP Client
 
@@ -61,7 +61,7 @@ Initial `class-monero-explorer-tools.php` extracted from [monero-integrations/mo
 
 * [ ] Strongly typed: some types are incomplete, some are deserialized as arrays
 * [ ] Unit tested: 100% should be achievable on what is just a thin wrapper
-* [x] Use [PSR-7 HTTP client](https://www.php-fig.org/psr/psr-7/) | [PSR-17 HTTP factory](https://www.php-fig.org/psr/psr-17/)
+* [x] Use [PSR-7 HTTP client](https://www.php-fig.org/psr/psr-7/) & [PSR-17 HTTP factory](https://www.php-fig.org/psr/psr-17/)
 * [ ] PhpDoc
 * [x] Short tutorial
 
