@@ -338,6 +338,12 @@ phpstan) before committing. Deviations and findings:
   Docker): the compose file ships the regtest/mainnet-mode attempt with the
   private-testnet fallback documented in its header. **First `make
   integration-up` on a Docker machine resolves the spike.**
+- First Docker run found upstream's Dockerfile broken under `ubuntu:latest`
+  (CMake 4.x removed `cmake_minimum_required(<3.5)` compatibility, failing the
+  monero v0.18 compile). Fixed by vendoring `.docker/xmrblocks/Dockerfile`:
+  upstream's file pinned to `ubuntu:24.04` with the explorer cloned at the
+  pinned commit instead of COPYied from the build context. Worth an upstream
+  issue/PR — their image is unbuildable as-is.
 - PhpDoc preservation audit: all pre-conversion prose present, except two
   TODOs deliberately RESOLVED by the work ("test data has empty array" —
   fixture now enabled; OutputsBlocksOutput's "I suspect it's <shape>"

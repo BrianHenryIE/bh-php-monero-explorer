@@ -105,8 +105,13 @@ services:
 
   xmrblocks:
     container_name: xmrblocks
+    # Vendored Dockerfile: upstream's, with ubuntu:latest pinned to 24.04
+    # (ubuntu:latest ships CMake 4.x which cannot build monero v0.18) and the
+    # explorer cloned at the pinned commit. See .docker/xmrblocks/Dockerfile.
     build:
-      context: https://github.com/moneroexamples/onion-monero-blockchain-explorer.git#${XMRBLOCKS_GIT_COMMIT}
+      context: ./.docker/xmrblocks
+      args:
+        XMRBLOCKS_GIT_COMMIT: ${XMRBLOCKS_GIT_COMMIT}
     image: bh-php-monero-explorer-xmrblocks
     restart: unless-stopped
     depends_on:
