@@ -42,7 +42,7 @@ Models are `final readonly` classes with public properties (PHP >= 8.4 is requir
 > operator. Prefer a self-hosted instance — this repository ships one:
 
 ```bash
-make integration-up   # monerod (regtest) + monero-wallet-rpc + xmrblocks; first run compiles xmrblocks (~20 min)
+make integration-up   # monerod (regtest) + monero-wallet-rpc + xmrblocks; first run compiles monerod + xmrblocks from source (~20 min)
 make integration-seed # deterministic test chain: 131 blocks, two seeded payments
 composer test-integration
 make integration-down
