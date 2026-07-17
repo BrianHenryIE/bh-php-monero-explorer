@@ -85,10 +85,7 @@ Initial `class-monero-explorer-tools.php` extracted from [monero-integrations/mo
 
 ### Composer
 
-The required libraries were chosen due to their robust code coverage:
-
-* [miWebb/JSend](https://github.com/miWebb/JSend) - 100% coverage
-* [JsonMapper/JsonMapper](https://github.com/JsonMapper/JsonMapper) | [JsonMapper.net](https://jsonmapper.net) - 100% coverage
+Runtime dependencies are minimal: [JsonMapper/JsonMapper](https://github.com/JsonMapper/JsonMapper) ([JsonMapper.net](https://jsonmapper.net)) hydrates responses into the typed models, plus a consumer-supplied PSR-7/PSR-17 HTTP implementation. The [JSend](https://github.com/omniti-labs/jsend) response envelope is unwrapped directly in `ExplorerApi::callApi()` — no JSend library is required.
 
 
 ## Acknowledgements
