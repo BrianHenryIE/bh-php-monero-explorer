@@ -44,10 +44,20 @@ jobs:
       # startup against a POPULATED chain; it first came up on the empty
       # pre-seed chain, so /api/emission is stuck at block 0 until this restart
       # (which testGetEmission depends on). Mirrors `make integration-seed`.
+      #
+      # `restart` (not `docker compose up`) is deliberate: `up <service>`
+      # recreates the monero-daemon on GitHub's Compose version, which wipes the
+      # freshly seeded chain. We poll the healthcheck directly instead.
       - name: Restart xmrblocks so its emission monitor rescans the seeded chain
         run: |
           docker compose restart xmrblocks
-          docker compose up -d --wait xmrblocks
+          for i in $(seq 1 60); do
+            status=$(docker inspect -f '{{.State.Health.Status}}' xmrblocks 2>/dev/null || echo starting)
+            [ "$status" = healthy ] && break
+            sleep 2
+          done
+          [ "$status" = healthy ] || { echo "xmrblocks did not become healthy after restart"; docker compose logs xmrblocks | tail -30; exit 1; }
+          echo "xmrblocks healthy; emission: $(curl -sf http://127.0.0.1:8081/api/emission || true)"
 
       - name: Run integration test suite (read-only)
         run: vendor/bin/phpunit --testsuite integration

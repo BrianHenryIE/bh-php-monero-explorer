@@ -20,12 +20,19 @@ integration-up:
 # The trailing restart works around xmrblocks' emission monitor, which only scans
 # to the chain tip on startup against a POPULATED chain; xmrblocks first came up
 # on the empty pre-seed chain, so without this /api/emission stays stuck at block 0.
+# We `restart` (not `up`) xmrblocks and poll its healthcheck directly: `docker
+# compose up <service>` recreates the daemon on some Compose versions, which would
+# wipe the freshly seeded chain.
 integration-seed:
 	docker compose down -v
 	docker compose up -d --wait --no-build
 	php tests/integration/seed-monero-explorer-chain.php
 	docker compose restart xmrblocks
-	docker compose up -d --wait --no-build xmrblocks
+	@echo "Waiting for xmrblocks to become healthy after restart..."
+	@i=0; until [ "$$(docker inspect -f '{{.State.Health.Status}}' xmrblocks 2>/dev/null)" = healthy ]; do \
+		i=$$((i+1)); [ $$i -ge 60 ] && { echo "xmrblocks did not become healthy after restart" >&2; exit 1; }; \
+		sleep 2; \
+	done
 
 # Destroy the containers AND all chain/wallet state.
 integration-down:
