@@ -72,7 +72,7 @@ Initial `class-monero-explorer-tools.php` extracted from [monero-integrations/mo
 
 ### Goals:
 
-* [ ] Strongly typed: some types are incomplete, some are deserialized as arrays
+* [ ] Strongly typed: nested objects now map to models; a few responses (raw miner tx, detailed transaction) remain `stdClass`/arrays
 * [ ] Unit tested: 100% should be achievable on what is just a thin wrapper
 * [x] Use [PSR-7 HTTP client](https://www.php-fig.org/psr/psr-7/) & [PSR-17 HTTP factory](https://www.php-fig.org/psr/psr-17/)
 * [ ] PhpDoc
