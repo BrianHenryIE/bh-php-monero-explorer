@@ -4,6 +4,10 @@ namespace BrianHenryIE\MoneroExplorer\Model;
 
 final readonly class Transaction
 {
+    /**
+     * @param TransactionInput[] $inputs
+     * @param TransactionOutput[] $outputs
+     */
     public function __construct(
         /**
          * Height of the block containing the transaction.

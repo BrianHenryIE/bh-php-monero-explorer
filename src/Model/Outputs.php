@@ -15,6 +15,9 @@ use BrianHenryIE\MoneroExplorer\ExplorerApi;
  */
 final readonly class Outputs
 {
+    /**
+     * @param OutputsOutput[] $outputs
+     */
     public function __construct(
         /**
          * The queried address (as hex-decoded public spend/view key pair).

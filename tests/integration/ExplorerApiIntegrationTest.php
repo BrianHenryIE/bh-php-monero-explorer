@@ -68,7 +68,11 @@ class ExplorerApiIntegrationTest extends MoneroExplorerIntegrationTestCase
             MoneroExplorerRegtestFixture::SEED_BLOCKS_MINED_AFTER_TRANSFERS,
             $result->confirmations
         );
-        self::assertSame('', $result->paymentId8);
+        // Modern monero-wallet-rpc embeds a DUMMY encrypted 8-byte payment id
+        // (16 hex chars) in every transaction — including plain-address transfers
+        // — so paymentId8 is present and indistinguishable from the integrated
+        // transfer's real one without the recipient's view key.
+        self::assertSame(16, strlen($result->paymentId8));
         self::assertNotEmpty($result->inputs);
         self::assertNotEmpty($result->outputs);
     }
@@ -225,7 +229,8 @@ class ExplorerApiIntegrationTest extends MoneroExplorerIntegrationTestCase
         );
 
         self::assertNotEmpty($minerResult->outputs);
-        self::assertSame(MoneroExplorerRegtestFixture::EXPECTED_CHAIN_HEIGHT_AFTER_SEED, $minerResult->height);
+        // The endpoint's `height` is the tip block NUMBER (chain height − 1).
+        self::assertSame(MoneroExplorerRegtestFixture::EXPECTED_CHAIN_HEIGHT_AFTER_SEED - 1, $minerResult->height);
 
         $recipientResult = self::$explorerApiClient->getOutputsBlocks(
             MoneroExplorerRegtestFixture::RECIPIENT_WALLET_PRIMARY_ADDRESS,

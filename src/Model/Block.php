@@ -4,6 +4,9 @@ namespace BrianHenryIE\MoneroExplorer\Model;
 
 final readonly class Block
 {
+    /**
+     * @param BlockTx[] $txs
+     */
     public function __construct(
         /** @var int */
         public int $blockHeight,

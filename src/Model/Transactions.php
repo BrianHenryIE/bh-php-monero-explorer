@@ -4,6 +4,9 @@ namespace BrianHenryIE\MoneroExplorer\Model;
 
 final readonly class Transactions
 {
+    /**
+     * @param TransactionsBlock[] $blocks
+     */
     public function __construct(
         /** @var TransactionsBlock[] */
         public array $blocks,

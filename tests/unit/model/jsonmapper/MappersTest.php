@@ -33,6 +33,8 @@ class MappersTest extends \PHPUnit\Framework\TestCase
      * @template T of object
      * @param string $filename The test .json file.
      * @param class-string<T> $type The object type to cast/deserialize the response to.
+     *
+     * @dataProvider data
      */
     #[DataProvider('data')]
     public function testMappers($filename, $type): void

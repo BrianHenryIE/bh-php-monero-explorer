@@ -10,6 +10,9 @@ namespace BrianHenryIE\MoneroExplorer\Model;
 
 final readonly class OutputsBlocks
 {
+    /**
+     * @param OutputsBlocksOutput[] $outputs
+     */
     public function __construct(
         /**
          * The queried address (as hex-decoded public spend/view key pair).
@@ -24,11 +27,17 @@ final readonly class OutputsBlocks
          */
         public int $height,
         /**
-         * Number of recent blocks scanned, echoed back AS A STRING by upstream.
+         * First block scanned (inclusive), echoed back from the request.
          *
-         * @var string
+         * @var int
          */
-        public string $limit,
+        public int $startblock,
+        /**
+         * Last block scanned (inclusive), echoed back from the request.
+         *
+         * @var int
+         */
+        public int $endblock,
         /**
          * Whether the mempool was also scanned.
          *

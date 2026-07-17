@@ -414,8 +414,10 @@ class ExplorerApi
      * whoever operates the server. Prefer a self-hosted instance — this
      * repository ships one (see docker-compose.yml).
      *
-     * `/api/outputsblocks?address=<address>&viewkey=<viewkey>&limit=<1-5>&mempool=<0|1>>`.
-     * `curl "http://127.0.0.1:8081/api/outputsblocks?address=<address>&viewkey=<viewkey>&limit=5&mempool=1" | jq`
+     * `/api/outputsblocks?address=<address>&viewkey=<viewkey>&startblock=<n>&endblock=<n>&mempool=<0|1>`.
+     * `curl "http://127.0.0.1:8081/api/outputsblocks?address=<address>&viewkey=<viewkey>&startblock=126&endblock=130&mempool=1" | jq`
+     * NB: `$limit` is preserved as a convenience — the last `$limit` blocks are
+     * resolved to a startblock/endblock range against the current tip.
      * @see OutputsBlocks
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L792-L827
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5492-L5672
@@ -452,11 +454,19 @@ class ExplorerApi
             throw new \InvalidArgumentException("Viewkey not provided");
         }
 
+        // This explorer version takes an explicit [startblock, endblock] range
+        // (older versions took `limit`). Preserve the "scan the last N blocks"
+        // semantics by resolving the current tip and scanning back `$limit`
+        // blocks. `height` is a block COUNT, so the tip block NUMBER is height-1.
+        $tipBlock = $this->getNetworkInfo()->height - 1;
+        $startBlock = max(0, $tipBlock - $sanitized_limit + 1);
+
         $endpoint = sprintf(
-            'outputsblocks?address=%s&viewkey=%s&limit=%d&mempool=%d',
+            'outputsblocks?address=%s&viewkey=%s&startblock=%d&endblock=%d&mempool=%d',
             $address,
             $viewkey,
-            $sanitized_limit,
+            $startBlock,
+            $tipBlock,
             (int) $mempool
         );
 

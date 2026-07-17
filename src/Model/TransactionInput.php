@@ -4,6 +4,9 @@ namespace BrianHenryIE\MoneroExplorer\Model;
 
 final readonly class TransactionInput
 {
+    /**
+     * @param TransactionInputMixin[] $mixins
+     */
     public function __construct(
         /**
          * Amount in atomic units; `0` for RingCT inputs, whose amounts are hidden.

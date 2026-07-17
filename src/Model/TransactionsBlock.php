@@ -4,6 +4,9 @@ namespace BrianHenryIE\MoneroExplorer\Model;
 
 final readonly class TransactionsBlock
 {
+    /**
+     * @param BlockTx[] $txs
+     */
     public function __construct(
         /**
          * Age of the block as `d:hh:mm:ss` (relative to the query time).

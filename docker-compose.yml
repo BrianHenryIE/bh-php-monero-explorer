@@ -37,7 +37,17 @@ services:
 
   monero-daemon:
     container_name: monero-daemon
-    image: ghcr.io/sethforprivacy/simple-monerod:${MONERO_VERSION}
+    # Source-built monerod (the `monerod` target of the xmrblocks Dockerfile), NOT
+    # a prebuilt image. xmrblocks reads this daemon's LIVE lmdb, and LMDB rejects a
+    # lock file written by a different monero build (MDB_LOCK_FORMAT mismatch shows
+    # as MDB_VERSION_MISMATCH), so the daemon must be the same build the explorer
+    # links. Shares the (cached) monerod compile with the xmrblocks image.
+    build:
+      context: ./.docker/xmrblocks
+      target: monerod
+      args:
+        XMRBLOCKS_GIT_COMMIT: ${XMRBLOCKS_GIT_COMMIT}
+    image: bh-php-monero-explorer-monerod
     restart: unless-stopped
     volumes:
       - monero-blockchain-data:/home/monero/.bitmonero
@@ -56,6 +66,8 @@ services:
       - "--confirm-external-bind"
       - "--rpc-ssl"
       - "disabled"
+      # This monerod's entrypoint is `./monerod` with no flag injection, so pass
+      # --non-interactive explicitly (unlike the prebuilt image, which added it).
       - "--non-interactive"
       - "--log-level"
       - "0"
@@ -83,11 +95,11 @@ services:
       - "--daemon-ssl"
       - "disabled"
       - "--trusted-daemon"
-      - "--rpc-bind-ip"
-      - "0.0.0.0"
+      # NB: the image entrypoint already injects `--non-interactive`,
+      # `--rpc-bind-ip=0.0.0.0` and `--confirm-external-bind`; repeating any of
+      # them makes monero-wallet-rpc abort ("cannot be specified more than once").
       - "--rpc-bind-port"
       - "18083"
-      - "--confirm-external-bind"
       - "--disable-rpc-login"
       # Regtest activates every hard fork at height 1; without this flag the
       # wallet refuses to refresh.
@@ -110,6 +122,10 @@ services:
     # explorer cloned at the pinned commit. See .docker/xmrblocks/Dockerfile.
     build:
       context: ./.docker/xmrblocks
+      # `final` is the explorer image; the Dockerfile's LAST stage is `monerod`
+      # (used by monero-daemon), so this target must be explicit or Docker would
+      # default to the last stage and run monerod here.
+      target: final
       args:
         XMRBLOCKS_GIT_COMMIT: ${XMRBLOCKS_GIT_COMMIT}
     image: bh-php-monero-explorer-xmrblocks
@@ -121,7 +137,15 @@ services:
       - monero-blockchain-data:/home/monero/.bitmonero
     ports:
       - "127.0.0.1:8081:8081"
-    command: ["./xmrblocks --daemon-url=monero-daemon:18081 --enable-json-api --enable-emission-monitor --enable-pusher --enable-autorefresh-option"]
+    # --bc-path: a regtest daemon (nettype "fakechain") writes its LMDB to the
+    # `fake/` subdir, not the mainnet default `<data-dir>/lmdb`. Without this,
+    # xmrblocks aborts with "Given path .../lmdb is not a folder or does not exist".
+    #
+    # --enable-emission-monitor: powers /api/emission. The monitor scans from
+    # genesis in chunks; against the seeded 131-block chain it computes emission
+    # and settles quietly. (It only floods "block not in db" logs while the chain
+    # is still near-empty, i.e. after `up` but before `seed` — harmless.)
+    command: ["./xmrblocks --daemon-url=monero-daemon:18081 --bc-path=/home/monero/.bitmonero/fake/lmdb --enable-json-api --enable-emission-monitor --enable-pusher --enable-autorefresh-option"]
     healthcheck:
       test: ["CMD-SHELL", "curl --fail http://localhost:8081/api/networkinfo || exit 1"]
       interval: 10s

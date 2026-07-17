@@ -40,6 +40,15 @@ jobs:
       - name: Seed the deterministic regtest chain
         run: php tests/integration/seed-monero-explorer-chain.php
 
+      # xmrblocks' emission monitor only scans reliably to the chain tip on
+      # startup against a POPULATED chain; it first came up on the empty
+      # pre-seed chain, so /api/emission is stuck at block 0 until this restart
+      # (which testGetEmission depends on). Mirrors `make integration-seed`.
+      - name: Restart xmrblocks so its emission monitor rescans the seeded chain
+        run: |
+          docker compose restart xmrblocks
+          docker compose up -d --wait xmrblocks
+
       - name: Run integration test suite (read-only)
         run: vendor/bin/phpunit --testsuite integration
         env:

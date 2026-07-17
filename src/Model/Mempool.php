@@ -11,6 +11,9 @@ namespace BrianHenryIE\MoneroExplorer\Model;
  */
 final readonly class Mempool
 {
+    /**
+     * @param MempoolTxs[] $txs
+     */
     public function __construct(
         /**
          * Max transactions requested (the API defaults to 100000000, i.e. "all").

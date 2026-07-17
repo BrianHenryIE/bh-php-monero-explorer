@@ -4,6 +4,10 @@ namespace BrianHenryIE\MoneroExplorer\Model;
 
 final readonly class RawTransaction
 {
+    /**
+     * @param RawTransactionVin[] $vin
+     * @param RawTransactionVout[] $vout
+     */
     public function __construct(
         /**
          * The tx_extra field bytes (tx public key, encrypted payment id, …).
