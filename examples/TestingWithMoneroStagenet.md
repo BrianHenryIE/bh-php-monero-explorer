@@ -35,12 +35,12 @@ echo N | monero-wallet-cli --stagenet --generate-new-wallet tests/_data/wallets/
 
 https://community.rino.io/faucet/stagenet/
 
+```php
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 
 $address = '57AaCDLE3GeBsgrK513QiUFePcBbSp5QYhn2Q2S1P9DsceUmeVkvBMJBQDFTfS9f21LfhXJSWNGN16mvXQmffGsA7KCVBxh';
 $secretViewKey = '64630bfeffdbbcf73ebe58d05a259e1731388def9104f6cbbe69ff8f2c3cd500';
-
 
 /** @var Psr\Http\Message\RequestFactoryInterface $requestFactory */
 $requestFactory = new \GuzzleHttp\Psr7\HttpFactory();
@@ -51,15 +51,10 @@ $client = new \GuzzleHttp\Client();
 $stagenetTools = new \BrianHenryIE\MoneroExplorer\ExplorerTools($requestFactory, $client, \BrianHenryIE\MoneroExplorer\ExplorerTools::STAGENET_URL);
 
 // Watch the mempool for the incoming transaction
-
 $outputs = $stagenetTools->getOutputsBlocks($address, $secretViewKey, 5, true);
 
-print_r( $outputs );
-
-//$stagenetTools->getLastBlockHeight()
-
-//$stagenetTools->isBlockContainsPayment()
-?>
+print_r($outputs);
+```
 
 
 

@@ -48,14 +48,15 @@ foreach (range($startingBlockHeight, $blockchainHeight) as $blockNumber) {
 
 echo $paid ? "Payment seen in block $blockNumber" : "Payment not found";
 
-?>
-```
-Beginning search.
-Payment address:   85wNBbdQcBM5cg49zk45Q7GetHVRWrUu53J4BuNEwaxPcWPrGiCAjvueC1ZR2YSn7MQveixbCtCd1LAA92ej3hvDGVRSks5
-Secret viewkey:    5248dc9138538c8de07706e6bb7b5b8fcd928306d1f3b9ff2c3027f70671de00
-Blockchain height: 2900136
-Looking for payment in block 2676045
-Looking for payment in block 2676046
-Looking for payment in block 2676047
-Payment seen in block 2676047
-```
+/*
+ * Expected output:
+ *
+ * Beginning search.
+ * Payment address:   85wNBbdQcBM5cg49zk45Q7GetHVRWrUu53J4BuNEwaxPcWPrGiCAjvueC1ZR2YSn7MQveixbCtCd1LAA92ej3hvDGVRSks5
+ * Secret viewkey:    5248dc9138538c8de07706e6bb7b5b8fcd928306d1f3b9ff2c3027f70671de00
+ * Blockchain height: 2900136
+ * Looking for payment in block 2676045
+ * Looking for payment in block 2676046
+ * Looking for payment in block 2676047
+ * Payment seen in block 2676047
+ */
