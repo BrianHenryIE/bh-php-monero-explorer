@@ -53,7 +53,7 @@ make integration-down
 ```php
 $explorerTools = new \BrianHenryIE\MoneroExplorer\ExplorerTools( $requestFactory, $client );
 
-$lastBlockHeight = $explorer->getLastBlockHeight();
+$lastBlockHeight = $explorerTools->getLastBlockHeight();
 ```
 
 ### Accept a Monero payment
