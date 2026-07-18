@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/bfa342ed50090c1e227fd0b344b40fa02296a112/src/page.h#L4758-L4892
+ *
+ * @package brianhenryie/bh-php-monero-explorer
+ */
+
 namespace BrianHenryIE\MoneroExplorer\Model;
 
 final readonly class Block
@@ -8,7 +14,9 @@ final readonly class Block
      * @param BlockTx[] $txs
      */
     public function __construct(
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $blockHeight,
         /**
          * The chain height at the time of the query.
@@ -16,7 +24,9 @@ final readonly class Block
          * @var int
          */
         public int $currentHeight,
-        /** @var string */
+        /**
+         * @var string
+         */
         public string $hash,
         /**
          * Size in bytes.
@@ -36,7 +46,9 @@ final readonly class Block
          * @var string
          */
         public string $timestampUtc,
-        /** @var BlockTx[] */
+        /**
+         * @var BlockTx[]
+         */
         public array $txs,
         /**
          * `"block"` when this object came from the `search` endpoint; absent from

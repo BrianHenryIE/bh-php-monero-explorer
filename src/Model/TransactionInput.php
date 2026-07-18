@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package brianhenryie/bh-php-monero-explorer
+ */
+
 namespace BrianHenryIE\MoneroExplorer\Model;
 
 final readonly class TransactionInput
@@ -20,7 +24,9 @@ final readonly class TransactionInput
          * @var string
          */
         public string $keyImage,
-        /** @var TransactionInputMixin[] */
+        /**
+         * @var TransactionInputMixin[]
+         */
         public array $mixins,
     ) {
     }

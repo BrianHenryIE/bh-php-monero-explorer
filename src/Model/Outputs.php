@@ -3,6 +3,8 @@
 /**
  * Class returned from /api/outputs
  *
+ * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/bfa342ed50090c1e227fd0b344b40fa02296a112/src/page.h#L5289-L5516
+ *
  * @package brianhenryie/bh-php-monero-explorer
  */
 
@@ -25,11 +27,17 @@ final readonly class Outputs
          * @var string
          */
         public string $address,
-        /** @var OutputsOutput[] */
+        /**
+         * @var OutputsOutput[]
+         */
         public array $outputs,
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $txConfirmations,
-        /** @var string */
+        /**
+         * @var string
+         */
         public string $txHash,
         /**
          * True when proving a SENT payment (the supplied key was a tx private

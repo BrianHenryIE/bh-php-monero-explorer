@@ -16,7 +16,9 @@ final readonly class TransactionInputMixin
          * @var int
          */
         public int $blockNo,
-        /** @var string */
+        /**
+         * @var string
+         */
         public string $publicKey,
         /**
          * Hash of the transaction which created the ring member output.

@@ -3,6 +3,8 @@
 /**
  * Class returned from /api/outputsblocks
  *
+ * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/bfa342ed50090c1e227fd0b344b40fa02296a112/src/page.h#L5521-L5722
+ *
  * @package brianhenryie/bh-php-monero-explorer
  */
 

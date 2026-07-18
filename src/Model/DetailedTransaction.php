@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/bfa342ed50090c1e227fd0b344b40fa02296a112/src/page.h#L4705-L4751
+ *
+ * @package brianhenryie/bh-php-monero-explorer
+ */
+
 namespace BrianHenryIE\MoneroExplorer\Model;
 
 use stdClass;
@@ -13,7 +19,7 @@ use stdClass;
  * properties here reflect that wire format faithfully rather than pretending
  * it is clean; unwrap with `$detailedTransaction->txHash[0]` etc.
  *
- * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4675-L4722
+ * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4675-L4722
  */
 final readonly class DetailedTransaction
 {
@@ -24,25 +30,45 @@ final readonly class DetailedTransaction
          * @var mixed[]
          */
         public array $addTxPubKeys,
-        /** @var string[] Zero-padded block height, e.g. `["02676047"]`. */
+        /**
+         * @var string[] Zero-padded block height, e.g. `["02676047"]`.
+         */
         public array $blkHeight,
-        /** @var mixed[] */
+        /**
+         * @var mixed[]
+         */
         public array $blkTimestamp,
-        /** @var int[] Epoch seconds of the containing block. */
+        /**
+         * @var int[] Epoch seconds of the containing block.
+         */
         public array $blkTimestampUint,
-        /** @var int[] */
+        /**
+         * @var int[]
+         */
         public array $confirmations,
-        /** @var mixed[] */
+        /**
+         * @var mixed[]
+         */
         public array $deltaTime,
-        /** @var bool[] */
+        /**
+         * @var bool[]
+         */
         public array $enableAsHex,
-        /** @var mixed[] The tx_extra field. */
+        /**
+         * @var mixed[] The tx_extra field.
+         */
         public array $extra,
-        /** @var bool[] */
+        /**
+         * @var bool[]
+         */
         public array $hasInputs,
-        /** @var bool[] */
+        /**
+         * @var bool[]
+         */
         public array $hasPaymentId,
-        /** @var bool[] */
+        /**
+         * @var bool[]
+         */
         public array $hasPaymentId8,
         /**
          * Inputs with per-ring-member detail (ages, timescales); entries are
@@ -51,15 +77,25 @@ final readonly class DetailedTransaction
          * @var stdClass[]
          */
         public array $inputs,
-        /** @var int[] */
+        /**
+         * @var int[]
+         */
         public array $inputsNo,
-        /** @var mixed[] Sum of input amounts, as formatted string. */
+        /**
+         * @var mixed[] Sum of input amounts, as formatted string.
+         */
         public array $inputsXmrSum,
-        /** @var bool[] */
+        /**
+         * @var bool[]
+         */
         public array $isRingct,
-        /** @var mixed[] */
+        /**
+         * @var mixed[]
+         */
         public array $maxMixTime,
-        /** @var mixed[] */
+        /**
+         * @var mixed[]
+         */
         public array $minMixTime,
         /**
          * Outputs with global-index detail; entries are mstch-context shaped.
@@ -67,39 +103,73 @@ final readonly class DetailedTransaction
          * @var stdClass[]
          */
         public array $outputs,
-        /** @var int[] */
+        /**
+         * @var int[]
+         */
         public array $outputsNo,
-        /** @var mixed[] Sum of output amounts, as formatted string. */
+        /**
+         * @var mixed[] Sum of output amounts, as formatted string.
+         */
         public array $outputsXmrSum,
-        /** @var mixed[] Fee paid per kB, as formatted string. */
+        /**
+         * @var mixed[] Fee paid per kB, as formatted string.
+         */
         public array $payedForKB,
-        /** @var string[] Legacy unencrypted payment id; empty for modern transactions. */
+        /**
+         * @var string[] Legacy unencrypted payment id; empty for modern transactions.
+         */
         public array $paymentId,
-        /** @var string[] Encrypted 8-byte payment id; empty when none. */
+        /**
+         * @var string[] Encrypted 8-byte payment id; empty when none.
+         */
         public array $paymentId8,
-        /** @var int[] */
+        /**
+         * @var int[]
+         */
         public array $rctType,
-        /** @var bool[] */
+        /**
+         * @var bool[]
+         */
         public array $stagenet,
-        /** @var bool[] */
+        /**
+         * @var bool[]
+         */
         public array $testnet,
-        /** @var mixed[] */
+        /**
+         * @var mixed[]
+         */
         public array $timescalesScale,
-        /** @var mixed[] */
+        /**
+         * @var mixed[]
+         */
         public array $txBlkHeight,
-        /** @var mixed[] Fee in atomic units. */
+        /**
+         * @var mixed[] Fee in atomic units.
+         */
         public array $txFee,
-        /** @var mixed[] */
+        /**
+         * @var mixed[]
+         */
         public array $txFeeMicro,
-        /** @var string[] */
+        /**
+         * @var string[]
+         */
         public array $txHash,
-        /** @var string[] */
+        /**
+         * @var string[]
+         */
         public array $txPrefixHash,
-        /** @var string[] The transaction's public key (from tx_extra). */
+        /**
+         * @var string[] The transaction's public key (from tx_extra).
+         */
         public array $txPubKey,
-        /** @var mixed[] Size in kB, as formatted string. */
+        /**
+         * @var mixed[] Size in kB, as formatted string.
+         */
         public array $txSize,
-        /** @var int[] */
+        /**
+         * @var int[]
+         */
         public array $txVersion,
     ) {
     }

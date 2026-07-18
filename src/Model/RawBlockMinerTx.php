@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package brianhenryie/bh-php-monero-explorer
+ */
+
 namespace BrianHenryIE\MoneroExplorer\Model;
 
 use stdClass;
@@ -26,7 +30,9 @@ final readonly class RawBlockMinerTx
          * @var int
          */
         public int $unlockTime,
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $version,
         /**
          * A coinbase input is `{"gen": {"height": n}}`, unlike a spend input.
@@ -34,7 +40,9 @@ final readonly class RawBlockMinerTx
          * @var stdClass[]
          */
         public array $vin,
-        /** @var stdClass[] */
+        /**
+         * @var stdClass[]
+         */
         public array $vout,
     ) {
     }

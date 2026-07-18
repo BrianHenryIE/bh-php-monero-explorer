@@ -186,7 +186,10 @@ try {
             'xmrblocks did not index the seeded chain'
         );
     } else {
-        fwrite(STDERR, "WARNING: xmrblocks returned HTTP {$networkInfoResponse->getStatusCode()}; seeding chain only.\n");
+        fwrite(
+            stream: STDERR,
+            data: "WARNING: xmrblocks returned HTTP {$networkInfoResponse->getStatusCode()}; seeding chain only.\n"
+        );
     }
 } catch (Exception $exception) {
     fwrite(STDERR, "WARNING: xmrblocks not reachable at {$explorerUrl}; seeding chain only.\n");

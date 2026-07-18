@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package brianhenryie/bh-php-monero-explorer
+ */
+
 namespace BrianHenryIE\MoneroExplorer\Model;
 
 final readonly class RawTransactionVout
@@ -11,7 +15,9 @@ final readonly class RawTransactionVout
          * @var int
          */
         public int $amount,
-        /** @var RawTransactionVoutTarget */
+        /**
+         * @var RawTransactionVoutTarget
+         */
         public RawTransactionVoutTarget $target,
     ) {
     }

@@ -2,6 +2,8 @@
 
 /**
  * Model for the `txs` array in Block objects.
+ *
+ * @package brianhenryie/bh-php-monero-explorer
  */
 
 namespace BrianHenryIE\MoneroExplorer\Model;
@@ -51,7 +53,9 @@ final readonly class BlockTx
          * @var int
          */
         public int $txFee,
-        /** @var string */
+        /**
+         * @var string
+         */
         public string $txHash,
         /**
          * Size in bytes.
@@ -59,7 +63,9 @@ final readonly class BlockTx
          * @var int
          */
         public int $txSize,
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $txVersion,
         /**
          * Sum of input amounts; `0` when amounts are hidden by RingCT.

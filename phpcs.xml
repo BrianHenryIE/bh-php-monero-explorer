@@ -8,6 +8,15 @@
 
     <rule ref="PSR12"/>
 
+    <!--
+        The seed script is a CLI executable that both declares helpers and runs
+        code (require, RPC calls), which PSR-1 forbids in one file. That mix is
+        intentional for a run-me script, so exclude only that sniff for it.
+    -->
+    <rule ref="PSR1.Files.SideEffects">
+        <exclude-pattern>tests/integration/seed-monero-explorer-chain.php</exclude-pattern>
+    </rule>
+
     <exclude-pattern>tests/reports</exclude-pattern>
     <exclude-pattern>tests/_data</exclude-pattern>
 

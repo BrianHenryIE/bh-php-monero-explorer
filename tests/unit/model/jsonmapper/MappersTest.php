@@ -2,6 +2,18 @@
 
 namespace BrianHenryIE\MoneroExplorer\Model\JsonMapper;
 
+use BrianHenryIE\MoneroExplorer\Model\Block;
+use BrianHenryIE\MoneroExplorer\Model\DetailedTransaction;
+use BrianHenryIE\MoneroExplorer\Model\Emission;
+use BrianHenryIE\MoneroExplorer\Model\Mempool;
+use BrianHenryIE\MoneroExplorer\Model\NetworkInfo;
+use BrianHenryIE\MoneroExplorer\Model\Outputs;
+use BrianHenryIE\MoneroExplorer\Model\OutputsBlocks;
+use BrianHenryIE\MoneroExplorer\Model\RawBlock;
+use BrianHenryIE\MoneroExplorer\Model\RawTransaction;
+use BrianHenryIE\MoneroExplorer\Model\Transaction;
+use BrianHenryIE\MoneroExplorer\Model\Transactions;
+use BrianHenryIE\MoneroExplorer\Model\Version;
 use JsonMapper\JsonMapperFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -14,18 +26,18 @@ class MappersTest extends \PHPUnit\Framework\TestCase
     public static function data(): array
     {
         return [
-            'block.json'                => [ 'block.json', \BrianHenryIE\MoneroExplorer\Model\Block::class ],
-            'detailed_transaction.json' => [ 'detailed_transaction.json', \BrianHenryIE\MoneroExplorer\Model\DetailedTransaction::class ],
-            'emission.json'             => [ 'emission.json', \BrianHenryIE\MoneroExplorer\Model\Emission::class ],
-            'mempool.json'              => [ 'mempool.json', \BrianHenryIE\MoneroExplorer\Model\Mempool::class ],
-            'outputs.json'              => [ 'outputs.json', \BrianHenryIE\MoneroExplorer\Model\Outputs::class ],
-            'network_info.json'         => [ 'network_info.json', \BrianHenryIE\MoneroExplorer\Model\NetworkInfo::class ],
-            'outputs_blocks.json'       => [ 'outputs_blocks.json', \BrianHenryIE\MoneroExplorer\Model\OutputsBlocks::class ],
-            'raw_block.json'            => [ 'raw_block.json', \BrianHenryIE\MoneroExplorer\Model\RawBlock::class ],
-            'raw_transaction.json'      => [ 'raw_transaction.json', \BrianHenryIE\MoneroExplorer\Model\RawTransaction::class ],
-            'transaction.json'          => [ 'transaction.json', \BrianHenryIE\MoneroExplorer\Model\Transaction::class ],
-            'transactions.json'         => [ 'transactions.json', \BrianHenryIE\MoneroExplorer\Model\Transactions::class ],
-            'version.json'              => [ 'version.json', \BrianHenryIE\MoneroExplorer\Model\Version::class ],
+            'block.json'                => [ 'block.json', Block::class ],
+            'detailed_transaction.json' => [ 'detailed_transaction.json', DetailedTransaction::class ],
+            'emission.json'             => [ 'emission.json', Emission::class ],
+            'mempool.json'              => [ 'mempool.json', Mempool::class ],
+            'outputs.json'              => [ 'outputs.json', Outputs::class ],
+            'network_info.json'         => [ 'network_info.json', NetworkInfo::class ],
+            'outputs_blocks.json'       => [ 'outputs_blocks.json', OutputsBlocks::class ],
+            'raw_block.json'            => [ 'raw_block.json', RawBlock::class ],
+            'raw_transaction.json'      => [ 'raw_transaction.json', RawTransaction::class ],
+            'transaction.json'          => [ 'transaction.json', Transaction::class ],
+            'transactions.json'         => [ 'transactions.json', Transactions::class ],
+            'version.json'              => [ 'version.json', Version::class ],
         ];
     }
 

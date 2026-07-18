@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package brianhenryie/bh-php-monero-explorer
+ */
+
 namespace BrianHenryIE\MoneroExplorer\Model;
 
 final readonly class MempoolTxs
@@ -35,7 +39,9 @@ final readonly class MempoolTxs
          * @var string
          */
         public string $paymentId8,
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $rctType,
         /**
          * Epoch seconds the transaction was received by this node's mempool.
@@ -55,7 +61,9 @@ final readonly class MempoolTxs
          * @var int
          */
         public int $txFee,
-        /** @var string */
+        /**
+         * @var string
+         */
         public string $txHash,
         /**
          * Size in bytes.
@@ -63,7 +71,9 @@ final readonly class MempoolTxs
          * @var int
          */
         public int $txSize,
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $txVersion,
         /**
          * Sum of input amounts; `0` when amounts are hidden by RingCT.
