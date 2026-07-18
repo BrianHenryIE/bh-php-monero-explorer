@@ -4,7 +4,7 @@
  * One output belonging to the queried address, found by scanning recent
  * blocks (and optionally the mempool).
  *
- * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5953-L5959
+ * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5953-L5959
  *
  * Which is partly common with:
  * @see \BrianHenryIE\MoneroExplorer\Model\OutputsOutput

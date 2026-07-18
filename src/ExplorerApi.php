@@ -3,13 +3,13 @@
 /**
  * Client for Onion Monero Blockchain Explorer HTTP API, aka xmrblocks.
  *
- * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/
+ * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/
  *
  * Provides a one-to-one function map to the API methods:
- * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L656-L837
+ * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L656-L837
  *
  * Public API implementation:
- * @see https://xmrchain.net/
+ * @see  https://xmrchain.net/
  *
  * Example API requests:
  * @see https://explorer.ryo-currency.com/api
@@ -96,7 +96,7 @@ class ExplorerApi
     /**
      * The server to use, typically `https://xmrchain.net`.
      *
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer#explorer-hosts
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer#explorer-hosts
      *
      * @see ExplorerTools::MAINNET_URL
      * @see ExplorerTools::TESTNET_URL
@@ -126,9 +126,9 @@ class ExplorerApi
      * `/api/transaction/<string>`
      * `curl "http://127.0.0.1:8081/api/transaction/<txhash>" | jq`
      *
-     * @see Transaction
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L661-L667C12
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4395-L4587
+     * @see  Transaction
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L661-L667C12
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4395-L4587
      *
      * @param string $txHash
      */
@@ -149,9 +149,9 @@ class ExplorerApi
      * `/api/rawtransaction/<txhash>`
      * `curl "http://127.0.0.1:8081/api/rawtransaction/<txhash>" | jq`
      *
-     * @see RawTransaction
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L669-L675
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4591-L4672
+     * @see  RawTransaction
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L669-L675
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4591-L4672
      *
      * @param string $txHash The transaction id.
      */
@@ -175,9 +175,9 @@ class ExplorerApi
      * `/api/detailedtransaction/<string>`
      * `curl "http://127.0.0.1:8081/api/detailedtransaction/<txhash>" | jq`
      *
-     * @see DetailedTransaction
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L677-L683
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4675-L4722
+     * @see  DetailedTransaction
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L677-L683
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4675-L4722
      *
      * @param string $txHash
      */
@@ -197,9 +197,9 @@ class ExplorerApi
      * `/api/block/<block-or-hash>`
      * `curl "http://127.0.0.1:8081/api/block/121" | jq`
      *
-     * @see Block
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L685-L691
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4724-L4863
+     * @see  Block
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L685-L691
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4724-L4863
      *
      * @param int|string $blockOrHash
      */
@@ -224,9 +224,9 @@ class ExplorerApi
      * `/api/rawblock/<string>`
      * `curl "http://127.0.0.1:8081/api/rawblock/121" | jq`
      *
-     * @see RawBlock
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L693-L699
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4867-L4960
+     * @see  RawBlock
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L693-L699
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4867-L4960
      *
      * @param int|string $blockOrHash
      */
@@ -247,9 +247,9 @@ class ExplorerApi
      * `/api/transactions?page=<number>&limit=<quantity>`
      * `curl "https://xmrchain.net/api/transactions?page=2&limit=5" | jq`
      *
-     * @see Transactions
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L701-L714
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4963-L5084
+     * @see  Transactions
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L701-L714
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4963-L5084
      *
      * @param int $page
      * @param int $limit
@@ -269,9 +269,9 @@ class ExplorerApi
      * `/api/mempool?page=<number>&limit=<quantity>`
      * `curl https://xmrchain.net/api/mempool | jq`
      *
-     * @see Mempool
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L716-L732
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5087-L5188
+     * @see  Mempool
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L716-L732
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5087-L5188
      *
      * @param int $page
      * @param int $limit
@@ -297,10 +297,10 @@ class ExplorerApi
      * `api/search/<query>`
      * `curl https://xmrchain.net/api/search/12345 | jq`
      *
-     * @see Block::$title
-     * @see Transaction::$title
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L734-L740
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5191-L5239
+     * @see  Block::$title
+     * @see  Transaction::$title
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L734-L740
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5191-L5239
      *
      * @param string|int $value Transaction hash | block hash | block number.
      *
@@ -336,9 +336,9 @@ class ExplorerApi
      * `/api/networkinfo`
      * `curl https://xmrchain.net/api/networkinfo | jq`
      *
-     * @see NetworkInfo
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L742-L748
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5674-L5730
+     * @see  NetworkInfo
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L742-L748
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5674-L5730
      */
     public function getNetworkInfo(): NetworkInfo
     {
@@ -355,13 +355,13 @@ class ExplorerApi
      * the monitor scans the whole chain on first run, so this endpoint may lag
      * a fresh instance.
      *
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer#enable-monero-emission
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer#enable-monero-emission
      *
      * `/api/emission`
      * `curl https://xmrchain.net/api/emission | jq`
-     * @see Emission
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L750-L756
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5733-L5774
+     * @see  Emission
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L750-L756
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5733-L5774
      */
     public function getEmission(): Emission
     {
@@ -393,9 +393,9 @@ class ExplorerApi
      * `/api/outputs?txhash=%s&address=%s&viewkey=%s&txprove=%d`
      * `curl "http://127.0.0.1:8081/api/outputs?txhash=<txhash>&address=<address>&viewkey=<viewkey>&txprove=0" | jq`
      *
-     * @see Outputs
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L758-L790
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5260-L5488
+     * @see  Outputs
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L758-L790
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5260-L5488
      *
      * @param string $txHash
      * @param string $paymentAddress
@@ -431,9 +431,9 @@ class ExplorerApi
      * NB: `$limit` is preserved as a convenience — the last `$limit` blocks are
      * resolved to a startblock/endblock range against the current tip.
      *
-     * @see OutputsBlocks
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L792-L827
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5492-L5672
+     * @see  OutputsBlocks
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L792-L827
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5492-L5672
      *
      * @param string   $address
      * @param string   $viewkey
@@ -458,12 +458,12 @@ class ExplorerApi
         }
 
         if (empty($address)) {
-            // @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5525-L5529
+            // @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5525-L5529
             throw new \InvalidArgumentException("Monero address not provided");
         }
 
         if (empty($viewkey)) {
-            // @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5532-L5537
+            // @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5532-L5537
             throw new \InvalidArgumentException("Viewkey not provided");
         }
 
@@ -490,9 +490,9 @@ class ExplorerApi
      * `/api/version`
      * `curl https://xmrchain.net/api/version | jq`
      *
-     * @see Version
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L829-L835
-     * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5777-L5803
+     * @see  Version
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L829-L835
+     * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5777-L5803
      */
     public function getVersion(): Version
     {

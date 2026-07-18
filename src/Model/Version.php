@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/version.h.in
+ * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/version.h.in
  */
 
 namespace BrianHenryIE\MoneroExplorer\Model;

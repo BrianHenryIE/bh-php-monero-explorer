@@ -13,7 +13,7 @@ use stdClass;
  * properties here reflect that wire format faithfully rather than pretending
  * it is clean; unwrap with `$detailedTransaction->txHash[0]` etc.
  *
- * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4675-L4722
+ * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4675-L4722
  */
 final readonly class DetailedTransaction
 {
