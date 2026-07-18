@@ -418,7 +418,7 @@ class ExplorerApi
      * repository ships one (see docker-compose.yml).
      *
      * `/api/outputsblocks?address=<address>&viewkey=<viewkey>&startblock=<n>&endblock=<n>&mempool=<0|1>`.
-     * `curl "http://127.0.0.1:8081/api/outputsblocks?address=<address>&viewkey=<viewkey>&startblock=126&endblock=130&mempool=1" | jq`
+     * `curl "http://127.0.0.1:8081/api/outputsblocks?address=<address>&viewkey=<viewkey>&startblock=126&endblock=130"`
      * NB: `$limit` is preserved as a convenience — the last `$limit` blocks are
      * resolved to a startblock/endblock range against the current tip.
      * @see OutputsBlocks
