@@ -109,8 +109,11 @@ class ExplorerApi
      * @param ClientInterface $client A PSR HTTP client.
      * @param string            $url The server to query.
      */
-    public function __construct(RequestFactoryInterface $requestFactory, ClientInterface $client, string $url = ExplorerTools::MAINNET_URL)
-    {
+    public function __construct(
+        RequestFactoryInterface $requestFactory,
+        ClientInterface $client,
+        string $url = ExplorerTools::MAINNET_URL,
+    ) {
         $this->url = $url;
         $this->client = $client;
         $this->requestFactory = $requestFactory;

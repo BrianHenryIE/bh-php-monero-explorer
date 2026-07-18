@@ -64,7 +64,11 @@ abstract class MoneroExplorerIntegrationTestCase extends TestCase
             );
         }
 
-        if (static::isReadOnlyTestSuite() && $height !== MoneroExplorerRegtestFixture::EXPECTED_CHAIN_HEIGHT_AFTER_SEED) {
+        if (
+            static::isReadOnlyTestSuite()
+            &&
+            $height !== MoneroExplorerRegtestFixture::EXPECTED_CHAIN_HEIGHT_AFTER_SEED
+        ) {
             self::fail(
                 "Explorer height {$height} !== expected "
                 . MoneroExplorerRegtestFixture::EXPECTED_CHAIN_HEIGHT_AFTER_SEED

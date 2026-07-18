@@ -39,7 +39,7 @@ class ExplorerTools extends ExplorerApi
      *
      * @param int $blockHeight The block to query.
      * @param string $paymentAddress The receiving address.
-     * @param string $viewkey The viewkey – secret viewkey when receiving payments, the transaction viewkey when proving payments.
+     * @param string $viewkey Secret viewkey when receiving payments, the transaction viewkey when proving payments.
      * @param bool $txProve
      *
      * @return bool
