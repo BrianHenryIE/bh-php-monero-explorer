@@ -15,14 +15,13 @@ declare(strict_types=1);
 
 namespace BrianHenryIE\MoneroExplorer;
 
-use Exception;
-
 /**
  * TODO: It would be ideal if this implemented a common interface that Monero-RPC implemented.
  */
 class ExplorerTools extends ExplorerApi
 {
     public const MAINNET_URL = 'https://xmrchain.net';
+    public const STAGENET_URL = 'https://stagenet.xmrchain.net';
     public const TESTNET_URL = 'https://testnet.xmrchain.com';
 
     /**
@@ -32,7 +31,7 @@ class ExplorerTools extends ExplorerApi
      */
     public function getLastBlockHeight(): int
     {
-        return $this->getNetworkInfo()->getHeight() - 1;
+        return $this->getNetworkInfo()->height - 1;
     }
 
     /**
@@ -45,20 +44,24 @@ class ExplorerTools extends ExplorerApi
      *
      * @return bool
      */
-    public function isBlockContainsPayment(int $blockHeight, string $paymentAddress, string $viewkey, bool $txProve = false): bool
-    {
+    public function isBlockContainsPayment(
+        int $blockHeight,
+        string $paymentAddress,
+        string $viewkey,
+        bool $txProve = false
+    ): bool {
         $block = $this->getBlock($blockHeight);
 
-        foreach ($block->getTxs() as $transaction) {
+        foreach ($block->txs as $transaction) {
             $outputs = $this->getOutputs(
-                $transaction->getTxHash(),
+                $transaction->txHash,
                 $paymentAddress,
                 $viewkey,
                 false
             );
 
-            foreach ($outputs->getOutputs() as $output) {
-                if ($output->isMatch()) {
+            foreach ($outputs->outputs as $output) {
+                if ($output->match) {
                     return true;
                 }
             }
@@ -75,21 +78,19 @@ class ExplorerTools extends ExplorerApi
      * @param string $payment_address
      * @param string $viewkey
      *
-     * @return array<array{amount:string,tx_id:string,height:int}>
+     * @return array<array{amount:int,tx_id:string,height:int}>
      */
     public function verifyPaymentInMempool(string $payment_id, string $payment_address, string $viewkey): array
     {
-        throw new Exception('Not yet implemented');
 
         $txs     = array();
-        $outputs = $this->getOutputsBlocks($payment_address, $viewkey)->getOutputs();
+        $outputs = $this->getOutputsBlocks($payment_address, $viewkey, 5, true)->outputs;
         foreach ($outputs as $payment) {
-            // TODO OutputsBlocksOutput not yet implemented.
-            if ($payment_id === $payment->getPaymentId()) {
+            if ($payment_id === $payment->paymentId) {
                 $txs[] = array(
-                    'amount' => $payment->getAmount(),
-                    'tx_id'  => $payment->getTxHash(),
-                    'height' => $payment->getBlockNo(),
+                    'amount' => $payment->amount,
+                    'tx_id'  => $payment->txHash,
+                    'height' => $payment->blockNo,
                 );
             }
         }

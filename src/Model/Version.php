@@ -7,35 +7,26 @@
 
 namespace BrianHenryIE\MoneroExplorer\Model;
 
-interface Version
+final readonly class Version
 {
-    /**
-      * API number is stored as uint32_t.
-      */
-    public function getApi(): int;
-
-    /**
-      *
-      */
-    public function getBlockchainHeight(): int;
-
-    /**
-      *
-      */
-    public function getGitBranchName(): string;
-
-    /**
-      *
-      */
-    public function getLastGitCommitDate(): string;
-
-    /**
-      *
-      */
-    public function getLastGitCommitHash(): string;
-
-    /**
-      *
-      */
-    public function getMoneroVersionFull(): string;
+    public function __construct(
+        /**
+         * API number is stored as uint32_t: major version in the first 16 bits,
+         * minor in the last 16 (`$major = $api >> 16; $minor = $api & 0xffff;`).
+         *
+         * @var int
+         */
+        public int $api,
+        /** @var int */
+        public int $blockchainHeight,
+        /** @var string */
+        public string $gitBranchName,
+        /** @var string */
+        public string $lastGitCommitDate,
+        /** @var string */
+        public string $lastGitCommitHash,
+        /** @var string */
+        public string $moneroVersionFull,
+    ) {
+    }
 }

@@ -1,4 +1,4 @@
-[![PHP 7.4](https://img.shields.io/badge/PHP-7.4-8892BF.svg)]() [![PHPCS PSR-12](https://img.shields.io/badge/PHPCS-PSR–12-226146.svg)](https://www.php-fig.org/psr/psr-12/) [![PHPUnit ](.github/coverage.svg)](https://brianhenryie.github.io/bh-php-monero-explorer/) [![PHPStan ](.github/phpstan.svg)](https://phpstan.org/)
+[![PHP 8.4](https://img.shields.io/badge/PHP-8.4-8892BF.svg)]() [![PHPCS PSR-12](https://img.shields.io/badge/PHPCS-PSR–12-226146.svg)](https://www.php-fig.org/psr/psr-12/) [![PHPUnit ](.github/coverage.svg)](https://brianhenryie.github.io/bh-php-monero-explorer/) [![PHPStan ](.github/phpstan.svg)](https://phpstan.org/)
 
 # Monero Explorer PHP Client
 
@@ -30,9 +30,22 @@ $client = new \GuzzleHttp\Client();
 $explorerApi = new \BrianHenryIE\MoneroExplorer\ExplorerApi( $requestFactory, $client );
 
 /** @var \BrianHenryIE\MoneroExplorer\Model\NetworkInfo $networkInfo */
-$networkInfo = $explorerApi->getNetworkInfo()
+$networkInfo = $explorerApi->getNetworkInfo();
 
-$lastBlockHeight = $networkInfo->getHeight() - 1;
+$lastBlockHeight = $networkInfo->height - 1;
+```
+
+Models are `final readonly` classes with public properties (PHP >= 8.4 is required).
+
+> **Privacy:** `getOutputs()`/`getOutputsBlocks()` send an address and view key to the
+> explorer server, permanently disclosing that wallet's incoming transactions to its
+> operator. Prefer a self-hosted instance — this repository ships one:
+
+```bash
+make integration-up   # monerod (regtest) + monero-wallet-rpc + xmrblocks; first run compiles monerod + xmrblocks from source (~20 min)
+make integration-seed # deterministic test chain: 131 blocks, two seeded payments
+composer test-integration
+make integration-down
 ```
 
 `ExplorerTools` extends `ExplorerApi` to add convenience functions.
@@ -40,7 +53,7 @@ $lastBlockHeight = $networkInfo->getHeight() - 1;
 ```php
 $explorerTools = new \BrianHenryIE\MoneroExplorer\ExplorerTools( $requestFactory, $client );
 
-$lastBlockHeight = $explorer->getLastBlockHeight();
+$lastBlockHeight = $explorerTools->getLastBlockHeight();
 ```
 
 ### Accept a Monero payment
@@ -59,9 +72,9 @@ Initial `class-monero-explorer-tools.php` extracted from [monero-integrations/mo
 
 ### Goals:
 
-* [ ] Strongly typed: some types are incomplete, some are deserialized as arrays
+* [ ] Strongly typed: nested objects now map to models; a few responses (raw miner tx, detailed transaction) remain `stdClass`/arrays
 * [ ] Unit tested: 100% should be achievable on what is just a thin wrapper
-* [x] Use [PSR-7 HTTP client](https://www.php-fig.org/psr/psr-7/) | [PSR-17 HTTP factory](https://www.php-fig.org/psr/psr-17/)
+* [x] Use [PSR-7 HTTP client](https://www.php-fig.org/psr/psr-7/) & [PSR-17 HTTP factory](https://www.php-fig.org/psr/psr-17/)
 * [ ] PhpDoc
 * [x] Short tutorial
 
@@ -72,10 +85,7 @@ Initial `class-monero-explorer-tools.php` extracted from [monero-integrations/mo
 
 ### Composer
 
-The required libraries were chosen due to their robust code coverage:
-
-* [miWebb/JSend](https://github.com/miWebb/JSend) - 100% coverage
-* [JsonMapper/JsonMapper](https://github.com/JsonMapper/JsonMapper) | [JsonMapper.net](https://jsonmapper.net) - 100% coverage
+Runtime dependencies are minimal: [JsonMapper/JsonMapper](https://github.com/JsonMapper/JsonMapper) ([JsonMapper.net](https://jsonmapper.net)) hydrates responses into the typed models, plus a consumer-supplied PSR-7/PSR-17 HTTP implementation. The [JSend](https://github.com/omniti-labs/jsend) response envelope is unwrapped directly in `ExplorerApi::callApi()` — no JSend library is required.
 
 
 ## Acknowledgements

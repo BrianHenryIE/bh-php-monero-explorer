@@ -5,6 +5,7 @@ parameters:
         - tests
     excludePaths:
         - tests/reports
+
     ignoreErrors:
         # There are many Mockery errors that maybe somebody could help with.
         - '#Mockery#'

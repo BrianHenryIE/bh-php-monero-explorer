@@ -1,7 +1,11 @@
-*.secret*
+/.env.secret
 .idea
 vendor
 scratch
 .phpunit.result.cache
 .DS_Store
 tests/reports
+monero-wallet-cli.log
+
+# Written by tests/integration/seed-monero-explorer-chain.php on every seed run.
+tests/_data/integration/manifest.json

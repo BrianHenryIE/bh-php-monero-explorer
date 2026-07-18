@@ -2,40 +2,35 @@
 
 namespace BrianHenryIE\MoneroExplorer\Model;
 
-interface RawBlock
+final readonly class RawBlock
 {
-    /**
-      *
-      */
-    public function getMajorVersion(): int;
-
-    /**
-      *
-      */
-    public function getMinerTx(): RawBlockMinerTx;
-
-    /**
-      *
-      */
-    public function getMinorVersion(): int;
-
-    /**
-      *
-      */
-    public function getNonce(): int;
-
-    /**
-      *
-      */
-    public function getPrevId(): string;
-
-    /**
-      *
-      */
-    public function getTimestamp(): int;
-
-    /**
-     * @return string[]
-     */
-    public function getTxHashes(): array;
+    public function __construct(
+        /** @var int */
+        public int $majorVersion,
+        /** @var RawBlockMinerTx */
+        public RawBlockMinerTx $minerTx,
+        /** @var int */
+        public int $minorVersion,
+        /** @var int */
+        public int $nonce,
+        /**
+         * Hash of the previous block.
+         *
+         * @var string
+         */
+        public string $prevId,
+        /**
+         * Epoch seconds the block was mined (set by the miner).
+         *
+         * @var int
+         */
+        public int $timestamp,
+        /**
+         * Hashes of the non-coinbase transactions in the block.
+         *
+         * @var string[]
+         */
+        public array $txHashes,
+    ) {
+    }
 }

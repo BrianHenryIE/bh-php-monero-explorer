@@ -2,40 +2,49 @@
 
 namespace BrianHenryIE\MoneroExplorer\Model;
 
-interface Block extends Search
+final readonly class Block
 {
     /**
-      *
-      */
-    public function getBlockHeight(): int;
-
-    /**
-      *
-      */
-    public function getCurrentHeight(): int;
-
-    /**
-      *
-      */
-    public function getHash(): string;
-
-    /**
-      *
-      */
-    public function getSize(): int;
-
-    /**
-      *
-      */
-    public function getTimestamp(): int;
-
-    /**
-      *
-      */
-    public function getTimestampUtc(): string;
-
-    /**
-     * @return BlockTx[]
+     * @param BlockTx[] $txs
      */
-    public function getTxs(): array;
+    public function __construct(
+        /** @var int */
+        public int $blockHeight,
+        /**
+         * The chain height at the time of the query.
+         *
+         * @var int
+         */
+        public int $currentHeight,
+        /** @var string */
+        public string $hash,
+        /**
+         * Size in bytes.
+         *
+         * @var int
+         */
+        public int $size,
+        /**
+         * Epoch seconds the block was mined (set by the miner).
+         *
+         * @var int
+         */
+        public int $timestamp,
+        /**
+         * E.g. `2022-07-27 00:00:17`.
+         *
+         * @var string
+         */
+        public string $timestampUtc,
+        /** @var BlockTx[] */
+        public array $txs,
+        /**
+         * `"block"` when this object came from the `search` endpoint; absent from
+         * the `block` endpoint's response.
+         *
+         * @var ?string
+         */
+        public ?string $title = null,
+    ) {
+    }
 }

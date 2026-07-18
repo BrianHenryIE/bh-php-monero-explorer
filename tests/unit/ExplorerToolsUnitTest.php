@@ -28,6 +28,7 @@ class ExplorerToolsUnitTest extends TestCase
 
         $response = Mockery::mock(ResponseInterface::class);
         $response->expects()->getBody()->andReturn($response_stream);
+        $response->allows()->getStatusCode()->andReturn(200);
 
         $client = Mockery::mock(ClientInterface::class);
         $client->expects()->sendRequest(Mockery::any())->andReturn($response);
@@ -54,6 +55,7 @@ class ExplorerToolsUnitTest extends TestCase
 
         $response = Mockery::mock(ResponseInterface::class)->makePartial();
         $response->expects()->getBody()->andReturn($response_stream);
+        $response->allows()->getStatusCode()->andReturn(200);
 
         $client = Mockery::mock(ClientInterface::class)->makePartial();
         $client->expects()->sendRequest(Mockery::any())->andReturn($response);
@@ -63,7 +65,7 @@ class ExplorerToolsUnitTest extends TestCase
 
         $sut = new ExplorerTools($requestFactory, $client);
 
-        $result = $sut->getMempool()->getTxs();
+        $result = $sut->getMempool()->txs;
 
         $this->assertCount(73, $result);
     }
@@ -80,6 +82,7 @@ class ExplorerToolsUnitTest extends TestCase
 
         $response = Mockery::mock(ResponseInterface::class)->makePartial();
         $response->expects()->getBody()->andReturn($response_stream);
+        $response->allows()->getStatusCode()->andReturn(200);
 
         $client = Mockery::mock(ClientInterface::class)->makePartial();
         $client->expects()->sendRequest(Mockery::any())->andReturn($response);

@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- https://phpunit.de/manual/5.5/en/appendixes.configuration.html -->
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" backupGlobals="false" colors="true" bootstrap="vendor/autoload.php" beStrictAboutTestsThatDoNotTestAnything="true" beStrictAboutOutputDuringTests="true" beStrictAboutChangesToGlobalState="true">
-  <coverage>
+<!--
+  Test suites:
+   - unit:     no network access; runs by default (`composer test`).
+   - integration:          read-only tests against the seeded Docker xmrblocks stack.
+   - integration-mutating: tests that mutate chain state; run LAST.
+
+  Integration suites require:  make integration-up && make integration-seed
+  Then:                        composer test-integration
+-->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/12.0/phpunit.xsd" backupGlobals="false" colors="true" bootstrap="vendor/autoload.php" defaultTestSuite="unit" beStrictAboutTestsThatDoNotTestAnything="true" beStrictAboutOutputDuringTests="true" beStrictAboutChangesToGlobalState="true">
+  <coverage/>
+  <testsuites>
+    <testsuite name="unit">
+      <directory>tests/unit</directory>
+    </testsuite>
+    <testsuite name="integration">
+      <directory>tests/integration</directory>
+    </testsuite>
+    <testsuite name="integration-mutating">
+      <directory>tests/integration-mutating</directory>
+    </testsuite>
+  </testsuites>
+  <source>
     <include>
       <directory>src</directory>
     </include>
-  </coverage>
-  <testsuites>
-    <testsuite name="Tests">
-      <directory>tests</directory>
-    </testsuite>
-  </testsuites>
+  </source>
 </phpunit>

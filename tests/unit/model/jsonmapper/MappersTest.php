@@ -3,6 +3,7 @@
 namespace BrianHenryIE\MoneroExplorer\Model\JsonMapper;
 
 use JsonMapper\JsonMapperFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class MappersTest extends \PHPUnit\Framework\TestCase
 {
@@ -10,44 +11,41 @@ class MappersTest extends \PHPUnit\Framework\TestCase
      *
      * @return array<string, string[]>
      */
-    public function data(): array
+    public static function data(): array
     {
         return [
-            'block.json'                => [ 'block.json', BlockMapper::class ],
-//            'detailed_transaction.json' => [ 'detailed_transaction.json', EmissionMapper::class ],
-            'emission.json'             => [ 'emission.json', EmissionMapper::class ],
-            'mempool.json'              => [ 'mempool.json', MempoolMapper::class ],
-            'outputs.json'              => [ 'outputs.json', OutputsMapper::class ],
-            'network_info.json'         => [ 'network_info.json', NetworkInfoMapper::class ],
-//            'outputs_blocks.json'       => [ 'outputs_blocks.json', OutputsBlocksMapper::class ],
-            'raw_block.json'            => [ 'raw_block.json', RawBlockMapper::class ],
-            'raw_transaction.json'      => [ 'raw_transaction.json', RawTransactionMapper::class ],
-            'transaction.json'          => [ 'transaction.json', TransactionMapper::class ],
-            'transactions.json'         => [ 'transactions.json', TransactionsMapper::class ],
-            'version.json'              => [ 'version.json', VersionMapper::class ],
+            'block.json'                => [ 'block.json', \BrianHenryIE\MoneroExplorer\Model\Block::class ],
+            'detailed_transaction.json' => [ 'detailed_transaction.json', \BrianHenryIE\MoneroExplorer\Model\DetailedTransaction::class ],
+            'emission.json'             => [ 'emission.json', \BrianHenryIE\MoneroExplorer\Model\Emission::class ],
+            'mempool.json'              => [ 'mempool.json', \BrianHenryIE\MoneroExplorer\Model\Mempool::class ],
+            'outputs.json'              => [ 'outputs.json', \BrianHenryIE\MoneroExplorer\Model\Outputs::class ],
+            'network_info.json'         => [ 'network_info.json', \BrianHenryIE\MoneroExplorer\Model\NetworkInfo::class ],
+            'outputs_blocks.json'       => [ 'outputs_blocks.json', \BrianHenryIE\MoneroExplorer\Model\OutputsBlocks::class ],
+            'raw_block.json'            => [ 'raw_block.json', \BrianHenryIE\MoneroExplorer\Model\RawBlock::class ],
+            'raw_transaction.json'      => [ 'raw_transaction.json', \BrianHenryIE\MoneroExplorer\Model\RawTransaction::class ],
+            'transaction.json'          => [ 'transaction.json', \BrianHenryIE\MoneroExplorer\Model\Transaction::class ],
+            'transactions.json'         => [ 'transactions.json', \BrianHenryIE\MoneroExplorer\Model\Transactions::class ],
+            'version.json'              => [ 'version.json', \BrianHenryIE\MoneroExplorer\Model\Version::class ],
         ];
     }
 
     /**
-     * @dataProvider data
-     *
      * @template T of object
      * @param string $filename The test .json file.
      * @param class-string<T> $type The object type to cast/deserialize the response to.
+     *
+     * @dataProvider data
      */
+    #[DataProvider('data')]
     public function testMappers($filename, $type): void
     {
         try {
             $json = file_get_contents(__DIR__ . '/../../../_data/model/' . $filename);
 
-            $mapper = (new JsonMapperFactory())->bestFit();
+            // The exact mapper configuration production uses.
+            $mapper = \BrianHenryIE\MoneroExplorer\ExplorerApi::buildResponseMapper();
 
-            $mapper->push(new \JsonMapper\Middleware\CaseConversion(
-                \JsonMapper\Enums\TextNotation::UNDERSCORE(),
-                \JsonMapper\Enums\TextNotation::CAMEL_CASE()
-            ));
-
-            $decoded_json = json_decode($json);
+            $decoded_json = json_decode($json, false, 512, JSON_BIGINT_AS_STRING | JSON_THROW_ON_ERROR);
             if (is_array($decoded_json)) {
                 $result = $mapper->mapToClassArray($decoded_json, $type);
             } else {

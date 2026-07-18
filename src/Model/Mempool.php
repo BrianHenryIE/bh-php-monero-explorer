@@ -2,30 +2,37 @@
 
 namespace BrianHenryIE\MoneroExplorer\Model;
 
-interface Mempool
+/**
+ * The mempool ("memory pool") holds transactions that have been broadcast but
+ * not yet mined into a block; they have zero confirmations and MAY still be
+ * dropped or never confirm. Each node has its OWN mempool — contents differ
+ * slightly between nodes depending on propagation — so this reflects the
+ * explorer's backing node, not a global truth.
+ */
+final readonly class Mempool
 {
     /**
-      *
-      */
-    public function getLimit(): int;
-
-    /**
-      *
-      */
-    public function getPage(): int;
-
-    /**
-      *
-      */
-    public function getTotalPageNo(): int;
-
-    /**
-     * @return MempoolTxs[]
+     * @param MempoolTxs[] $txs
      */
-    public function getTxs(): array;
-
-    /**
-      *
-      */
-    public function getTxsNo(): int;
+    public function __construct(
+        /**
+         * Max transactions requested (the API defaults to 100000000, i.e. "all").
+         *
+         * @var int
+         */
+        public int $limit,
+        /** @var int */
+        public int $page,
+        /** @var int */
+        public int $totalPageNo,
+        /** @var MempoolTxs[] */
+        public array $txs,
+        /**
+         * Total number of transactions in the mempool.
+         *
+         * @var int
+         */
+        public int $txsNo,
+    ) {
+    }
 }
