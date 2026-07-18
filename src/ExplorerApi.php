@@ -12,10 +12,10 @@
  * @see  https://xmrchain.net/
  *
  * Example API requests:
- * @see https://explorer.ryo-currency.com/api
+ * @see  https://explorer.ryo-currency.com/api
  *
  * Monero official website:
- * @see https://www.getmonero.org/
+ * @see  https://www.getmonero.org/
  *
  * @author Serhack
  * @author cryptochangements

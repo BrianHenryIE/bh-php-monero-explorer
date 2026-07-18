@@ -2,6 +2,10 @@
 
 /**
  * @see https://www.getmonero.org/resources/developer-guides/daemon-rpc.html#get_info
+ *
+ * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/bfa342ed50090c1e227fd0b344b40fa02296a112/src/page.h#L5729-L5770
+ *
+ * @package brianhenryie/bh-php-monero-explorer
  */
 
 namespace BrianHenryIE\MoneroExplorer\Model;
@@ -155,6 +159,8 @@ final readonly class NetworkInfo
          * Optional: absent from older explorer versions' responses (e.g. the
          * captured tests/_data/explorer-tools/getLastBlockHeight.json fixture);
          * null when not reported.
+         *
+         * @link https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/bfa342ed50090c1e227fd0b344b40fa02296a112/src/page.h#L5778-L5802
          *
          * @var ?int
          */

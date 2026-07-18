@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package brianhenryie/bh-php-monero-explorer
+ */
+
 namespace BrianHenryIE\MoneroExplorer\Model;
 
 final readonly class MempoolTxs

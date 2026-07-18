@@ -2,6 +2,8 @@
 
 /**
  * Model for the `txs` array in Block objects.
+ *
+ * @package brianhenryie/bh-php-monero-explorer
  */
 
 namespace BrianHenryIE\MoneroExplorer\Model;
