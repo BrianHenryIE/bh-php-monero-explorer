@@ -37,6 +37,38 @@
       "tests/"
     ]
   },
+  "repositories": {
+    "monero-project/monero": {
+      "type": "package",
+      "package": {
+        "name": "monero-project/monero",
+        "version": "v0.18.5.1",
+        "source": {
+          "url": "https://github.com/monero-project/monero",
+          "type": "git",
+          "reference": "v0.18.5.1"
+        }
+      },
+      "only": [
+        "monero-project/monero"
+      ]
+    },
+    "moneroexamples/onion-monero-blockchain-explorer": {
+      "type": "package",
+      "package": {
+        "name": "moneroexamples/onion-monero-blockchain-explorer",
+        "version": "dev-master",
+        "source": {
+          "url": "https://github.com/moneroexamples/onion-monero-blockchain-explorer",
+          "type": "git",
+          "reference": "master"
+        }
+      },
+      "only": [
+        "moneroexamples/onion-monero-blockchain-explorer"
+      ]
+    }
+  },
   "require": {
     "php": ">=8.4",
     "ext-json": "*",
@@ -50,6 +82,8 @@
     "dealerdirect/phpcodesniffer-composer-installer": "*",
     "guzzlehttp/guzzle": "^7.4",
     "jaschilz/php-coverage-badger": "^2.0",
+    "monero-project/monero": "*",
+    "moneroexamples/onion-monero-blockchain-explorer": "*",
     "mockery/mockery": "^1.5",
     "phpstan/extension-installer": "*",
     "phpunit/phpcov": "*",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "215a2fc29947abd5ac0843fd5f04e4a6",
+    "content-hash": "658f3b268ae73f138496e8637c74cae8",
     "packages": [
         {
             "name": "doctrine/deprecations",
@@ -2434,6 +2434,26 @@
                 "source": "https://github.com/mockery/mockery"
             },
             "time": "2024-05-16T03:13:13+00:00"
+        },
+        {
+            "name": "monero-project/monero",
+            "version": "v0.18.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/monero-project/monero",
+                "reference": "v0.18.5.1"
+            },
+            "type": "library"
+        },
+        {
+            "name": "moneroexamples/onion-monero-blockchain-explorer",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/moneroexamples/onion-monero-blockchain-explorer",
+                "reference": "master"
+            },
+            "type": "library"
         },
         {
             "name": "myclabs/deep-copy",
