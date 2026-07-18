@@ -8,7 +8,9 @@ final readonly class Transactions
      * @param TransactionsBlock[] $blocks
      */
     public function __construct(
-        /** @var TransactionsBlock[] */
+        /**
+         * @var TransactionsBlock[]
+         */
         public array $blocks,
         /**
          * The chain height at the time of the query.
@@ -22,9 +24,13 @@ final readonly class Transactions
          * @var int
          */
         public int $limit,
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $page,
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $totalPageNo,
     ) {
     }

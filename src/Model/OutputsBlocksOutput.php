@@ -29,7 +29,9 @@ final readonly class OutputsBlocksOutput
          * @var int
          */
         public int $blockNo,
-        /** @var bool */
+        /**
+         * @var bool
+         */
         public bool $inMempool,
         /**
          * Index of the output within its transaction.
@@ -50,7 +52,9 @@ final readonly class OutputsBlocksOutput
          * @var string
          */
         public string $paymentId,
-        /** @var string */
+        /**
+         * @var string
+         */
         public string $txHash,
     ) {
     }

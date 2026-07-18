@@ -5,7 +5,7 @@ namespace BrianHenryIE\MoneroExplorer\Model;
 final readonly class Transaction
 {
     /**
-     * @param TransactionInput[] $inputs
+     * @param TransactionInput[]  $inputs
      * @param TransactionOutput[] $outputs
      */
     public function __construct(
@@ -41,7 +41,9 @@ final readonly class Transaction
          * @var string
          */
         public string $extra,
-        /** @var TransactionInput[] */
+        /**
+         * @var TransactionInput[]
+         */
         public array $inputs,
         /**
          * Number of decoys in each ring (ring size − 1).
@@ -49,7 +51,9 @@ final readonly class Transaction
          * @var int
          */
         public int $mixin,
-        /** @var TransactionOutput[] */
+        /**
+         * @var TransactionOutput[]
+         */
         public array $outputs,
         /**
          * Legacy unencrypted payment id; empty for modern transactions.
@@ -63,7 +67,9 @@ final readonly class Transaction
          * @var string
          */
         public string $paymentId8,
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $rctType,
         /**
          * Epoch seconds of the containing block.
@@ -83,7 +89,9 @@ final readonly class Transaction
          * @var int
          */
         public int $txFee,
-        /** @var string */
+        /**
+         * @var string
+         */
         public string $txHash,
         /**
          * Size in bytes.
@@ -91,7 +99,9 @@ final readonly class Transaction
          * @var int
          */
         public int $txSize,
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $txVersion,
         /**
          * Sum of input amounts; `0` when amounts are hidden by RingCT.

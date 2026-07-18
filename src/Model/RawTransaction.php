@@ -5,7 +5,7 @@ namespace BrianHenryIE\MoneroExplorer\Model;
 final readonly class RawTransaction
 {
     /**
-     * @param RawTransactionVin[] $vin
+     * @param RawTransactionVin[]  $vin
      * @param RawTransactionVout[] $vout
      */
     public function __construct(
@@ -33,11 +33,17 @@ final readonly class RawTransaction
          * @var int
          */
         public int $unlockTime,
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $version,
-        /** @var RawTransactionVin[] */
+        /**
+         * @var RawTransactionVin[]
+         */
         public array $vin,
-        /** @var RawTransactionVout[] */
+        /**
+         * @var RawTransactionVout[]
+         */
         public array $vout,
     ) {
     }

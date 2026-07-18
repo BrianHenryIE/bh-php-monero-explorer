@@ -9,7 +9,9 @@ namespace BrianHenryIE\MoneroExplorer\Model;
 final readonly class NetworkInfo
 {
     public function __construct(
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $altBlocksCount,
         /**
          * Maximum allowed adjusted block size based on latest 100000 blocks.
@@ -33,13 +35,21 @@ final readonly class NetworkInfo
          * @var string
          */
         public string $cumulativeDifficulty,
-        /** @var bool */
+        /**
+         * @var bool
+         */
         public bool $current,
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $currentHfVersion,
-        /** @var string */
+        /**
+         * @var string
+         */
         public string $difficulty,
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $feePerKb,
         /**
          * Grey Peerlist Size.
@@ -47,7 +57,9 @@ final readonly class NetworkInfo
          * @var int
          */
         public int $greyPeerlistSize,
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $hashRate,
         /**
          * Current length of longest chain known to daemon.
@@ -125,7 +137,9 @@ final readonly class NetworkInfo
          * @var int
          */
         public int $txPoolSize,
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $txPoolSizeKbytes,
         /**
          * White Peerlist Size.

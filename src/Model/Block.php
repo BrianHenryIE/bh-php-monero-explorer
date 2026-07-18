@@ -8,7 +8,9 @@ final readonly class Block
      * @param BlockTx[] $txs
      */
     public function __construct(
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $blockHeight,
         /**
          * The chain height at the time of the query.
@@ -16,7 +18,9 @@ final readonly class Block
          * @var int
          */
         public int $currentHeight,
-        /** @var string */
+        /**
+         * @var string
+         */
         public string $hash,
         /**
          * Size in bytes.
@@ -36,7 +40,9 @@ final readonly class Block
          * @var string
          */
         public string $timestampUtc,
-        /** @var BlockTx[] */
+        /**
+         * @var BlockTx[]
+         */
         public array $txs,
         /**
          * `"block"` when this object came from the `search` endpoint; absent from

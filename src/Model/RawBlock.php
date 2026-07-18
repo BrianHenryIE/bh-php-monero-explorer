@@ -5,13 +5,21 @@ namespace BrianHenryIE\MoneroExplorer\Model;
 final readonly class RawBlock
 {
     public function __construct(
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $majorVersion,
-        /** @var RawBlockMinerTx */
+        /**
+         * @var RawBlockMinerTx
+         */
         public RawBlockMinerTx $minerTx,
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $minorVersion,
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $nonce,
         /**
          * Hash of the previous block.

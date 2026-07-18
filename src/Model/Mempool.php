@@ -21,11 +21,17 @@ final readonly class Mempool
          * @var int
          */
         public int $limit,
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $page,
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $totalPageNo,
-        /** @var MempoolTxs[] */
+        /**
+         * @var MempoolTxs[]
+         */
         public array $txs,
         /**
          * Total number of transactions in the mempool.

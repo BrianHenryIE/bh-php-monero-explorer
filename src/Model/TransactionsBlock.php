@@ -14,9 +14,13 @@ final readonly class TransactionsBlock
          * @var string
          */
         public string $age,
-        /** @var string */
+        /**
+         * @var string
+         */
         public string $hash,
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $height,
         /**
          * NB: upstream reports this in inconsistent magnitude (compare `Block::$size`).
@@ -36,7 +40,9 @@ final readonly class TransactionsBlock
          * @var string
          */
         public string $timestampUtc,
-        /** @var BlockTx[] */
+        /**
+         * @var BlockTx[]
+         */
         public array $txs,
     ) {
     }

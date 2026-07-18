@@ -2,6 +2,7 @@
 
 /**
  * Client for Onion Monero Blockchain Explorer HTTP API, aka xmrblocks.
+ *
  * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/
  *
  * Provides a one-to-one function map to the API methods:
@@ -106,8 +107,8 @@ class ExplorerApi
      * Constructor
      *
      * @param RequestFactoryInterface $requestFactory
-     * @param ClientInterface $client A PSR HTTP client.
-     * @param string            $url The server to query.
+     * @param ClientInterface         $client         A PSR HTTP client.
+     * @param string                  $url            The server to query.
      */
     public function __construct(
         RequestFactoryInterface $requestFactory,
@@ -124,6 +125,7 @@ class ExplorerApi
      *
      * `/api/transaction/<string>`
      * `curl "http://127.0.0.1:8081/api/transaction/<txhash>" | jq`
+     *
      * @see Transaction
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L661-L667C12
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4395-L4587
@@ -146,6 +148,7 @@ class ExplorerApi
      *
      * `/api/rawtransaction/<txhash>`
      * `curl "http://127.0.0.1:8081/api/rawtransaction/<txhash>" | jq`
+     *
      * @see RawTransaction
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L669-L675
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4591-L4672
@@ -171,6 +174,7 @@ class ExplorerApi
      *
      * `/api/detailedtransaction/<string>`
      * `curl "http://127.0.0.1:8081/api/detailedtransaction/<txhash>" | jq`
+     *
      * @see DetailedTransaction
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L677-L683
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4675-L4722
@@ -192,6 +196,7 @@ class ExplorerApi
      *
      * `/api/block/<block-or-hash>`
      * `curl "http://127.0.0.1:8081/api/block/121" | jq`
+     *
      * @see Block
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L685-L691
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4724-L4863
@@ -218,6 +223,7 @@ class ExplorerApi
      *
      * `/api/rawblock/<string>`
      * `curl "http://127.0.0.1:8081/api/rawblock/121" | jq`
+     *
      * @see RawBlock
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L693-L699
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4867-L4960
@@ -238,9 +244,9 @@ class ExplorerApi
     }
 
     /**
-     *
      * `/api/transactions?page=<number>&limit=<quantity>`
      * `curl "https://xmrchain.net/api/transactions?page=2&limit=5" | jq`
+     *
      * @see Transactions
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L701-L714
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L4963-L5084
@@ -260,9 +266,9 @@ class ExplorerApi
     }
 
     /**
-     *
      * `/api/mempool?page=<number>&limit=<quantity>`
      * `curl https://xmrchain.net/api/mempool | jq`
+     *
      * @see Mempool
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L716-L732
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5087-L5188
@@ -290,6 +296,7 @@ class ExplorerApi
      *
      * `api/search/<query>`
      * `curl https://xmrchain.net/api/search/12345 | jq`
+     *
      * @see Block::$title
      * @see Transaction::$title
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L734-L740
@@ -328,6 +335,7 @@ class ExplorerApi
      *
      * `/api/networkinfo`
      * `curl https://xmrchain.net/api/networkinfo | jq`
+     *
      * @see NetworkInfo
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L742-L748
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5674-L5730
@@ -346,6 +354,7 @@ class ExplorerApi
      * NB: Emission is disabled by default (`xmrblocks --enable-emission-monitor`);
      * the monitor scans the whole chain on first run, so this endpoint may lag
      * a fresh instance.
+     *
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer#enable-monero-emission
      *
      * `/api/emission`
@@ -383,6 +392,7 @@ class ExplorerApi
      *
      * `/api/outputs?txhash=%s&address=%s&viewkey=%s&txprove=%d`
      * `curl "http://127.0.0.1:8081/api/outputs?txhash=<txhash>&address=<address>&viewkey=<viewkey>&txprove=0" | jq`
+     *
      * @see Outputs
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L758-L790
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5260-L5488
@@ -390,8 +400,7 @@ class ExplorerApi
      * @param string $txHash
      * @param string $paymentAddress
      * @param string $viewkey
-     * @param bool $txProve
-     *
+     * @param bool   $txProve
      */
     public function getOutputs(string $txHash, string $paymentAddress, string $viewkey, bool $txProve = false): Outputs
     {
@@ -421,14 +430,15 @@ class ExplorerApi
      * `api/outputsblocks?address=<address>&viewkey=<viewkey>&startblock=126&endblock=130&mempool=1`
      * NB: `$limit` is preserved as a convenience — the last `$limit` blocks are
      * resolved to a startblock/endblock range against the current tip.
+     *
      * @see OutputsBlocks
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L792-L827
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5492-L5672
      *
-     * @param string $address
-     * @param string $viewkey
-     * @param int<1,5> $limit Max (up to 5) number of blocks to return.
-     * @param bool   $mempool Additionally check in the mempool.
+     * @param string   $address
+     * @param string   $viewkey
+     * @param int<1,5> $limit   Max (up to 5) number of blocks to return.
+     * @param bool     $mempool Additionally check in the mempool.
      */
     public function getOutputsBlocks(
         string $address,
@@ -436,7 +446,7 @@ class ExplorerApi
         int $limit = 5,
         bool $mempool = false
     ): OutputsBlocks {
-//        trigger_error('Full `outputsblocks` JSON parsing not yet implemented', E_USER_WARNING);
+        //        trigger_error('Full `outputsblocks` JSON parsing not yet implemented', E_USER_WARNING);
 
         $sanitized_limit = max(1, min($limit, 5));
 
@@ -477,10 +487,9 @@ class ExplorerApi
     }
 
     /**
-     *
-     *
      * `/api/version`
      * `curl https://xmrchain.net/api/version | jq`
+     *
      * @see Version
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/aa96ce2927c050fabe17154a3bdfb09be83a632f/main.cpp#L829-L835
      * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/page.h#L5777-L5803
@@ -528,9 +537,9 @@ class ExplorerApi
      * @see https://github.com/omniti-labs/jsend
      *
      * @template T of object
-     * @param string $endpoint The REST route, excluding the domain.
-     * @param class-string<T> $type The object type to cast/deserialize the response to.
-     * @return T
+     * @param    string          $endpoint The REST route, excluding the domain.
+     * @param    class-string<T> $type     The object type to cast/deserialize the response to.
+     * @return   T
      *
      * @throws ClientExceptionInterface PSR HTTP client exception.
      * @throws JsonException When the response body is not valid JSON.
@@ -553,11 +562,13 @@ class ExplorerApi
 
         if (2 !== intdiv($response->getStatusCode(), 100)) {
             // E.g. 404 when the JSON API is not enabled (`xmrblocks --enable-json-api`).
-            throw new Exception(sprintf(
-                'HTTP %d querying api/%s. Is the explorer running with `--enable-json-api`?',
-                $response->getStatusCode(),
-                strstr($endpoint, '?', true) ?: $endpoint
-            ));
+            throw new Exception(
+                sprintf(
+                    'HTTP %d querying api/%s. Is the explorer running with `--enable-json-api`?',
+                    $response->getStatusCode(),
+                    strstr($endpoint, '?', true) ?: $endpoint
+                )
+            );
         }
 
         $responseBody = (string) $response->getBody();
@@ -569,11 +580,13 @@ class ExplorerApi
         }
 
         if ($decoded->status !== 'success') {
-            throw new Exception(sprintf(
-                'API: %s%s',
-                $decoded->status,
-                isset($decoded->message) ? ": {$decoded->message}" : ''
-            ));
+            throw new Exception(
+                sprintf(
+                    'API: %s%s',
+                    $decoded->status,
+                    isset($decoded->message) ? ": {$decoded->message}" : ''
+                )
+            );
         }
 
         self::assertRequiredResponseFieldsPresent($decoded->data ?? new stdClass(), $type, $endpoint, $responseBody);
@@ -614,7 +627,7 @@ class ExplorerApi
      * NB: validates the top-level response object only; nested objects are
      * protected by the mapper's own null-into-non-nullable failure.
      *
-     * @param object $data The decoded JSend `data` payload.
+     * @param object       $data The decoded JSend `data` payload.
      * @param class-string $type The model the payload will be hydrated to.
      *
      * @throws IncompleteExplorerResponseException

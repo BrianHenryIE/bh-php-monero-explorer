@@ -11,7 +11,9 @@ final readonly class RawTransactionVout
          * @var int
          */
         public int $amount,
-        /** @var RawTransactionVoutTarget */
+        /**
+         * @var RawTransactionVoutTarget
+         */
         public RawTransactionVoutTarget $target,
     ) {
     }

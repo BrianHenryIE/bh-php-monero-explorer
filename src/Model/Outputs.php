@@ -25,11 +25,17 @@ final readonly class Outputs
          * @var string
          */
         public string $address,
-        /** @var OutputsOutput[] */
+        /**
+         * @var OutputsOutput[]
+         */
         public array $outputs,
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $txConfirmations,
-        /** @var string */
+        /**
+         * @var string
+         */
         public string $txHash,
         /**
          * True when proving a SENT payment (the supplied key was a tx private

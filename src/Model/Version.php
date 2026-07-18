@@ -2,7 +2,6 @@
 
 /**
  * @see https://github.com/moneroexamples/onion-monero-blockchain-explorer/blob/d66972065fd34339451c248b4dfb5c54be0d0719/src/version.h.in
- *
  */
 
 namespace BrianHenryIE\MoneroExplorer\Model;
@@ -17,15 +16,25 @@ final readonly class Version
          * @var int
          */
         public int $api,
-        /** @var int */
+        /**
+         * @var int
+         */
         public int $blockchainHeight,
-        /** @var string */
+        /**
+         * @var string
+         */
         public string $gitBranchName,
-        /** @var string */
+        /**
+         * @var string
+         */
         public string $lastGitCommitDate,
-        /** @var string */
+        /**
+         * @var string
+         */
         public string $lastGitCommitHash,
-        /** @var string */
+        /**
+         * @var string
+         */
         public string $moneroVersionFull,
     ) {
     }

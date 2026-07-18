@@ -20,7 +20,9 @@ final readonly class TransactionInput
          * @var string
          */
         public string $keyImage,
-        /** @var TransactionInputMixin[] */
+        /**
+         * @var TransactionInputMixin[]
+         */
         public array $mixins,
     ) {
     }
